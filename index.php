@@ -7,6 +7,7 @@
 </head>
 <body>
     <h1>Trang chủ cửa hàng</h1>
-    <a href="admin/authen/login.php">Đăng nhập</a>
+    <a href="admin/authen/login.php">Kiểm tra đơn hàng</a>
+
 </body>
 </html>
