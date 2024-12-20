@@ -1,0 +1,20 @@
+        Quản lý tài khoản người dùng:
+
+- Hiển thị danh sách người dùng
+- Thêm/ Sửa/ Xóa người dùng (xóa: mềm [chỉ số deleted(0,1): nếu chưa xóa hiện 0 đã xóa hiện 1])
+
+CHỈ QUYỀN ADMIN mới được sử dụng chức năng này, tài khoản quyền "User" chỉ được phép vào xem các đơn hàng đã đặt
+
+Form sửa:
+- Không sửa mật khẩu, cho phép trường mật khẩu để rỗng (không bắt buộc điền)
+- Với trường hợp muốn sửa tài khoản thì hệ thống sẽ không yêu cầu nhập mật khẩu như trường hợp thêm mới tài khoản
+- Đối với trường email để tránh trùng lặp email trong khi sửa, ta sẽ viết 1 hàm để kiểm tra email đã tồn tại chưa bằng cách
+sử dụng câu lệnh sql truy vấn tìm xem có email nào trùng nhưng không phải của người dùng hiện tại đang đc chỉnh sửa
+để tránh 2 người dùng có chung 1 email. Nếu email tồn tại ( bị trùng trong csdl) thì sẽ hiện thông báo lỗi
+
+Form thêm mới và sửa:
+- Để hể thống phân biệt được đâu là form thêm mới, đâu là form sửa ta sẽ tạo ra 1 thuộc tính mang id ẩn ở trong form
+nếu id đó >0(tức là có trả về giá trị id người dùng và thông tin tài khoản khi người dùng ấn sửa thì sẽ là form UPDATE)
+ngược lại sẽ là thêm mới
+
+Xóa: chỉ xóa các tài khoản k phải tài khoản đang đăng nhập
