@@ -5,7 +5,6 @@
     require_once('form_save.php');
     $id = $name = '';
     if (isset($_GET['id'])) {
-        //nêu sản phẩm tồn tại mới xử lý
         $id = getGet('id');
         $sql = "SELECT * FROM category WHERE id = $id";
         $data = executeResult($sql, true);
@@ -108,7 +107,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-<!-- Hàm xóa tài danh mục -->
+<!-- Hàm xóa danh mục -->
 <script type="text/javascript">
     function deleteCategory(id) { // truyền vào id danh mục
         option = confirm('Xác nhận xóa danh mục?')
