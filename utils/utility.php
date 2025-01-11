@@ -71,4 +71,28 @@
         }
         return NULL;
     }
+
+    function moveFile($key, $rootPath = "../../") {
+        if(!isset($_FILES[$key]) || !isset($_FILES[$key]['name']) || $_FILES[$key]['name'] == '') {
+            return '';
+        }
+
+        $pathTemp = $_FILES[$key]["tmp_name"];
+
+        $filename = $_FILES[$key]['name'];
+        
+        $newPath = "assets/photos/".$filename;
+
+        move_uploaded_file($pathTemp, $rootPath.$newPath);
+
+        return $newPath;
+    }
+
+    function fixUrl($picture, $rootPath = "../../") {
+        if(stripos($picture, 'http://') !== false || stripos($picture, 'https://') !== false) {}
+            else {
+                $picture = $rootPath.$picture;
+            }
+            return $picture;
+    }
 ?>

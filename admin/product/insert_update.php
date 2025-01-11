@@ -26,6 +26,7 @@
     $categoryItems = executeResult($sql); // chứa danh sách các quyền trong hệ thống
 
 ?>
+
         
         <div id="page-content-wrapper">
             <!-- navbar -->
@@ -59,58 +60,69 @@
 
             <!-- page content -->
             <div class="container">
-                    <form method="POST">
-                        <!-- tên sp -->
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Tên sản phẩm</label>
-                            <input type="text" class="form-control" id="title" name="title" placeholder="Nhập tên sản phẩm" value="<?=$title?>" required>
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <!-- Cột 1 -->
+                        <div class="col-md-6">
+                            <!-- Tên sản phẩm -->
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Tên sản phẩm</label>
+                                <input type="text" class="form-control" id="title" name="title" placeholder="Nhập tên sản phẩm" value="<?=$title?>" required>
+                            </div>
+
+                            <!-- Mô tả -->
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Mô tả:</label>
+                                <textarea class="form-control" rows="5" name="description" id="description" placeholder="Nhập mô tả" required><?=$description?></textarea>
+                            </div>
                         </div>
-                        <input type="text" name="id" value="<?=$id?>" hidden="true">
-                        <!-- chọn danh mục -->
-                        <div class="mb-3">
-                            <label for="category" class="form-label">Danh mục sản phẩm:</label>
-                            <select class="form-control" name="category_id" id="category_id" required="true">
-                                <option value="">-- Chọn --</option>
-                                <?php
+
+                        <!-- Cột 2 -->
+                        <div class="col-md-6">
+                            <!-- Ảnh -->
+                            <div class="mb-3">
+                                <label for="picture" class="form-label">Ảnh:</label>
+                                <input type="file" class="form-control" id="picture" name="picture" 
+                                accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                                <img id="picture_img" src="<?=$picture?>" style="max-height: 160px; margin-top: 5px; margin-bottom: 15px">
+                            </div>
+
+                            <!-- Chọn danh mục -->
+                            <div class="mb-3">
+                                <label for="category" class="form-label">Danh mục sản phẩm:</label>
+                                <select class="form-control" name="category_id" id="category_id" required>
+                                    <option value="">-- Chọn --</option>
+                                    <?php
                                     foreach ($categoryItems as $category) {
-                                        if($category['id'] == $category_id) {
+                                        if ($category['id'] == $category_id) {
                                             echo '<option selected value="'.$category['id'].'">'.$category['name'].'</option>'; 
                                         } else {
                                             echo '<option value="'.$category['id'].'">'.$category['name'].'</option>'; 
                                         }
                                     }
-                                ?>
-                            </select>
-                        </div>
-                        <!-- ảnh -->
-                        <div class="mb-3">
-                            <label for="picture" class="form-label">Ảnh:</label>
-                            <input type="text" class="form-control" id="picture" name="picture" value="<?=$picture?>" >
-                        </div>
+                                    ?>
+                                </select>
+                            </div>
 
-                        <!-- giá -->
-                        <div class="mb-3">
-                            <label for="price" class="form-label">Giá</label>
-                            <input type="number" class="form-control" id="price" name="price" placeholder="Nhập giá" value="<?=$price?>" required>
-                        </div>
+                            <!-- Giá -->
+                            <div class="mb-3">
+                                <label for="price" class="form-label">Giá</label>
+                                <input type="number" class="form-control" id="price" name="price" placeholder="Nhập giá" value="<?=$price?>" required>
+                            </div>
 
-                        <!-- giảm giá -->
-                        <div class="mb-3">
-                            <label for="discount" class="form-label">Giảm giá</label>
-                            <input type="text" class="form-control" id="discount" name="discount" placeholder="Nhập giá discount" value="<?=$discount?>" required>
-                        </div>
+                            <!-- Giảm giá -->
+                            <div class="mb-3">
+                                <label for="discount" class="form-label">Giảm giá</label>
+                                <input type="text" class="form-control" id="discount" name="discount" placeholder="Nhập giá discount" value="<?=$discount?>" required>
+                            </div> 
 
-                        <!-- mô tả -->
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Mô tả:</label>
-                            <textarea class="form-control" row="5" name="description" id="description" placeholder="Nhập mô tả" required><?=$description?></textarea>
+                            <!-- Nút Lưu -->
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary w-auto">Lưu sản phẩm</button>
+                            </div>
                         </div>
-
-                        <!-- Nút đăng ký -->
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Lưu</button>
-                        </div>
-                    </form>
+                    </div>
+                </form>
             </div>
             <!-- page content -->
         </div>
@@ -127,5 +139,27 @@
         el.classList.toggle("toggled")
     }
 </script>
+
+<script type="text/javascript">
+    function updatePicture() {
+        $('#picture_img').attr('src', $('#picture').val())
+    }
+</script>
+
+<!-- Summernote CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
+
+<!-- Summernote JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#description').summernote({
+            height: 200, 
+            placeholder: 'Nhập mô tả sản phẩm...',
+            tabsize: 2
+        });
+    });
+</script>
+
 </body>
 </html>

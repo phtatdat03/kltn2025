@@ -4,14 +4,27 @@
         $title =  getPost("title");
         $price = getPost("price");
         $discount = getPost("discount");
-        $picture = getPost("picture");
+
+        $picture = moveFile('picture');
+
         $description = getPost("description");
         $category = getPost("category_id");
         $created_at = $updated_at = date("Y-m-d H:i:s");                                                                                           
 
         if($id > 0) {
             //update
-            $sql = "UPDATE product set picture='$picture',
+            if($picture != '') {
+                $sql = "UPDATE product set picture='$picture',
+                                        title='$title',
+                                        price='$price',
+                                        discount='$discount',
+                                        description='$description',
+                                        category_id='$category',
+                                        updated_at='$updated_at'
+                                        WHERE id='$id'
+                                        ";
+            } else {
+                $sql = "UPDATE product set 
                                        title='$title',
                                        price='$price',
                                        discount='$discount',
@@ -20,9 +33,9 @@
                                        updated_at='$updated_at'
                                        WHERE id='$id'
                                        ";
-
+            }
             execute($sql);
-            header("Location: index.php");
+            header("location: index.php");
             die();
         } else {
             //insert

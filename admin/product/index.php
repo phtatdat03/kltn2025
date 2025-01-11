@@ -3,7 +3,7 @@
     $baseUrl = '../';
     require_once('../layouts/side_bar.php');
 
-    $sql = "SELECT product.*, category.name as category_name FROM product left join category on product.category_id = category.id and product.deleted = 0";
+    $sql = "SELECT product.*, category.name as category_name FROM product left join category on product.category_id = category.id WHERE product.deleted = 0";
     $data = executeResult($sql, false);
 ?>
 
@@ -41,7 +41,7 @@
             <div class="container-fluid px-4">
                     <div class="row-my-4">
                         <div class="col">
-                            <h3 class="fs-4 mb-3">Quản lý người dùng</h3>
+                            <h3 class="fs-4 mb-3">Quản lý sản phẩm</h3>
                             <a href="insert_update.php"><button class="btn btn-primary mb-3">Thêm sản phẩm</button></a>
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered">
@@ -62,7 +62,7 @@
                                         foreach ($data as $item) {
                                             echo '<tr>
                                                     <td>' . (++$index) . '</td>
-                                                    <td><img src="' . $item['picture'] . '" style="height:100px"/></td>
+                                                    <td><img src="'.fixUrl($item['picture']).'" style="height:100px"/></td>
                                                     <td>' . $item['title'] . '</td>
                                                     <td>' .number_format($item['price']) . ' VNĐ</td>
                                                     <td>' . $item['category_name'] . '</td>
