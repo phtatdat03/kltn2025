@@ -3,8 +3,21 @@
     $baseUrl = '../';
     require_once('../layouts/side_bar.php');
 
-    $sql = "SELECT product.*, category.name as category_name FROM product left join category on product.category_id = category.id WHERE product.deleted = 0";
-    $data = executeResult($sql, false);
+    $limit = 5;
+
+    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+    $start = ($page - 1) * $limit;
+
+    $sql_count = "SELECT COUNT(*) as total FROM product WHERE deleted = 0";
+    $total_result = executeResult($sql_count, true);
+    $total_products = $total_result['total'];
+    $total_pages = ceil($total_products / $limit);
+    
+    $sql = "SELECT product.*, category.name as category_name 
+            FROM product left join category on product.category_id = category.id 
+            WHERE product.deleted = 0
+            LIMIT $start, $limit";
+    $data = executeResult($sql);
 ?>
 
 <div id="page-content-wrapper">
@@ -61,7 +74,7 @@
                                         $index = 0;
                                         foreach ($data as $item) {
                                             echo '<tr>
-                                                    <td>' . (++$index) . '</td>
+                                                    <th>' . (++$index) . '</th>
                                                     <td><img src="'.fixUrl($item['picture']).'" style="height:100px"/></td>
                                                     <td>' . $item['title'] . '</td>
                                                     <td>' .number_format($item['price']) . ' VNĐ</td>
@@ -78,6 +91,33 @@
                                         }
                                         ?>
                                 </table>
+                                <div class="d-flex justify-content-center mt-4">
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination">
+                                            <?php if($page > 1): ?>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page=<?= ($page-1) ?>" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+
+                                            <?php for($i = 1; $i <= $total_pages; $i++): ?>
+                                                <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
+                                                    <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                                                </li>
+                                            <?php endfor; ?>
+
+                                            <?php if($page < $total_pages): ?>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page=<?= ($page+1) ?>" aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+                                        </ul>
+                                    </nav>
+                                </div>
                             </div>
                         </div>
                     </div>

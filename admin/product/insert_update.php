@@ -26,8 +26,6 @@
     $categoryItems = executeResult($sql); // chứa danh sách các quyền trong hệ thống
 
 ?>
-
-        
         <div id="page-content-wrapper">
             <!-- navbar -->
             <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
@@ -61,6 +59,7 @@
             <!-- page content -->
             <div class="container">
                 <form method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="<?=$id?>">
                     <div class="row">
                         <!-- Cột 1 -->
                         <div class="col-md-6">

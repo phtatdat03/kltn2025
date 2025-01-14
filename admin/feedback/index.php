@@ -3,12 +3,12 @@
     $baseUrl = '../';
     require_once('../layouts/side_bar.php');
 
-    $sql = "SELECT * FROM feedback order by status asc, updated_at desc"; //ưu tiên những cái chưa đọc đẩy lên trên, còn nếu cùng 1 giá trị thì cái nào tạo sau sẽ đẩy lên trc
+    $sql = "SELECT * FROM feedback order by status asc, updated_at desc";
+    // ưu tiên những cái chưa đọc đẩy lên trên,
+    // còn nếu cùng 1 giá trị thì cái nào tạo sau sẽ đẩy lên trc
 
     $data = executeResult($sql);
 ?>
-
-        <!-- page content -->
         <div id="page-content-wrapper">
         <!-- navbar -->
             <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
