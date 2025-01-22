@@ -1,9 +1,9 @@
+/* Thiết lập chung cho toàn bộ body */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background: url("/user/woodshop-main/img/banner/banner4.jpg") no-repeat center
-    center fixed; /* Đường dẫn tới ảnh nền */
+  background: url("../img/banner/banner4.jpg") no-repeat center center fixed; /* Đường dẫn tới ảnh nền */
   background-size: cover; /* Đảm bảo ảnh phủ toàn bộ màn hình */
   display: flex;
   justify-content: center;
@@ -12,6 +12,7 @@ body {
   color: #fff;
 }
 
+/* Hiệu ứng làm mờ ảnh nền */
 body::before {
   content: "";
   position: absolute;
@@ -20,29 +21,33 @@ body::before {
   width: 100%;
   height: 100%;
   background: inherit;
-  filter: blur(2px); /* Làm mờ ảnh nền */
-  z-index: -1; /* Đưa lớp mờ ra sau nội dung chính */
+  filter: blur(4px); /* Tăng độ mờ để nội dung nổi bật hơn */
+  z-index: -1;
 }
 
+/* Container chính của form đăng nhập */
 .login-container {
   width: 100%;
   max-width: 400px;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 1); /* Màu nền trắng mờ */
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
 
+/* Nội dung bên trong form đăng nhập */
 .login-form {
   padding: 20px;
 }
 
+/* Tiêu đề form */
 .login-form h2 {
   text-align: center;
   color: #c89551;
   margin-bottom: 20px;
 }
 
+/* Nhãn và input */
 .login-form label {
   display: block;
   margin-bottom: 5px;
@@ -55,11 +60,14 @@ body::before {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  border: 1px solid #ddd; /* Viền nhạt */
+  border-radius: 4px; /* Bo góc */
   box-sizing: border-box;
+  font-size: 14px;
+  background-color: #f9f9f9;
 }
 
+/* Thiết lập cho các tùy chọn */
 .options {
   display: flex;
   justify-content: space-between;
@@ -71,6 +79,7 @@ body::before {
   margin-right: 5px;
 }
 
+/* Nút đăng nhập */
 .login-btn {
   width: 100%;
   padding: 10px;
@@ -84,9 +93,10 @@ body::before {
 }
 
 .login-btn:hover {
-  background-color: #b07a3c;
+  background-color: #b07a3c; /* Tông màu đậm hơn khi hover */
 }
 
+/* Liên kết đăng ký */
 .register-link {
   text-align: center;
   margin-top: 10px;
@@ -95,6 +105,7 @@ body::before {
 .register-link a {
   color: #c89551;
   text-decoration: none;
+  font-weight: bold;
 }
 
 .register-link a:hover {
