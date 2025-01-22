@@ -1,3 +1,22 @@
+<?php
+    require_once('../../utils/utility.php');
+    require_once('../../database/dbhelper.php');
+
+    $productID = getGet('id');
+
+    $sql = "SELECT product.*, category.name as category_name 
+            from product left join category on product.category_id = category.id
+            WHERE product.id = $productID";
+    
+    $product = executeResult($sql, true);
+
+    $category_id = $product['category_id'];
+    $sql = "SELECT product.*, category.name as category_name
+            from product left join category on product.category_id = category.id
+            WHERE product.category_id = $category_id ORDER BY
+            product.updated_at desc limit 0,12";
+    $lastestItems = executeResult($sql);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,7 +83,7 @@
                             <nav class="navbar navbar-expand-lg navbar-light">
                                 <div class="container-fluid">
                                     <div class="logo">
-                                        <a href="index.html">
+                                        <a href="index.php">
                                             <img src="img/logo.png" alt="">
                                         </a>
                                     </div>
@@ -74,10 +93,10 @@
                                   <div class="collapse navbar-collapse hide justify-content-center" id="navbarSupportedContent">
                                     <ul class="navbar-nav  mb-2 mb-lg-0 justify-content-center">
                                       <li class="nav-item">
-                                        <a class="nav-link active" aria-current="page" href="index.html">Trang chủ</a>
+                                        <a class="nav-link active" aria-current="page" href="index.php">Trang chủ</a>
                                       </li>
                                       <li class="nav-item">
-                                        <a class="nav-link active pro" aria-current="page" href="shop.html">Sản phẩm</a>
+                                        <a class="nav-link active pro" aria-current="page" href="shop.php">Sản phẩm</a>
                                       </li>
                                       <li class="nav-item">
                                         <a class="nav-link active newss" aria-current="page" href="allnews.html">Tin tức</a>
@@ -161,23 +180,17 @@
                 <div class="row">
                     <div class="col-lg-5">
                         <div class="list-img">
-                            <img src="img/ban/ban3/ban3.1.webp" alt=""  href='img/ban/ban3/ban3.1.webp'>
-                            <div class="row">
-                                <div class="col-4"><img src="img/ban/ban3/ban3.2.webp" alt="" href='img/ban/ban3/ban3.2.webp'></div>
-                                <div class="col-4"><img src="img/ban/ban3/ban3.3.webp" alt="" href='img/ban/ban3/ban3.3.webp'></div>
-                                <div class="col-4"><img src="img/ban/ban3/ban3.4.webp" alt="" href='img/ban/ban3/ban3.4.webp'></div>
-                            </div>
+                            <img src="<?=fixUrl($product['picture'])?>" alt="<?=$product['title']?>" class="product-img">
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="main-info">
                             <div class="product-info">
-                                <p class="name-product">Bàn Narro Black Side</p>
+                                <p class="name-product"><?=$product['title']?></p>
                                 <div class="price-product text-center d-flex align-items-center">
-                                    <p class="price">2.200.000 đ</p>
+                                    <p class="price"><?=number_format($product['price'], 0, ',', '.')?> đ</p>
                                     <p class="root-price">300.000 đ</p>
                                 </div>
-                                <p class="text-intro">Một chiếc bàn nhỏ gọn phù hợp với phong cách đơn giản nhưng đầy tinh tế và sang trọng.</p>
                                 <div class="soluong d-flex align-items-center">
                                     <p class="sl-text">Số lượng: </p>
                                     <i class="fas fa-plus"></i>
@@ -203,13 +216,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
-                        <div class="uudai">
-                            <p class="uudai-title">Ưu đãi thêm</p>
-                            <p>Trừ 5% cho khách hàng đăng kí</p>
-                            <p>Trừ 5% cho thanh toán qua thẻ</p>
-                        </div>
-                    </div>
                 </div>
                 <div class="product-intro">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -217,25 +223,12 @@
                           <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Miêu tả</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Thông số</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
                           <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Đánh giá & Nhận xét</button>
                         </li>
                       </ul>
                       <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                            Những năm 50 đã nhắn tin - họ đã trở lại. Ghế Svelti mang tính biểu tượng của chúng tôi đặt một góc quay hiện đại vào một thiết kế cổ điển giữa thế kỷ, khiến nó trở thành chiếc ghế trong nhà hoặc ngoài trời hoàn hảo. Đa năng, dễ chăm sóc và cũng dễ dàng cho mắt. Ghế được bán và vận chuyển theo cặp. Giá được hiển thị trên mỗi ghế.
-                            282 / 5000
-                            Một diện mạo hiện đại duyên dáng giữa thế kỷ được đặt trong đá. Chân gỗ chắc chắn được bao phủ bởi một phiến đá cẩm thạch trang nhã để tạo nên vẻ ngoài gọn gàng, nhỏ gọn, hoàn hảo cho không gian nhỏ. Đó là một thiết kế cổ điển sẽ chuyển đổi qua bất kỳ phong cách chỗ ngồi nào. Trộn và kết hợp với bàn gỗ rắn.                         </div>
-                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                            <ul class='list-thongso'>
-                                <li>Trọng lượng: 50kg</li>
-                                <li>Ghế được bán và vận chuyển theo cặp. Giá được hiển thị trên mỗi ghế</li>
-                                <li>Polypropylene đúc chất lượng cao</li>
-                                <li>Thích hợp cho sử dụng trong nhà và ngoài trời</li>
-                                <li>Yêu cầu lắp ráp đơn giản (khoảng 15 phút)</li>
-                            </ul>
+                            <?=$product['description'] ?>
                         </div>
                         <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                             <div class="judge">
