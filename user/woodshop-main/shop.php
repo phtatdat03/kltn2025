@@ -1,30 +1,32 @@
 <?php
     require_once('../../utils/utility.php');
     require_once('../../database/dbhelper.php');
-    $categoryId = isset($_GET['category_id']) ? $_GET['category_id'] : null;
 
-    // Câu lệnh truy vấn sản phẩm
+    // Lấy danh mục sản phẩm
+    $sql1 = "SELECT * FROM category";
+    $categories = executeResult($sql1);
+
+    // Khởi tạo danh sách sản phẩm
+    $filteredProducts = [];
     $sql = "SELECT product.*, category.name as category_name 
             FROM product 
             LEFT JOIN category ON product.category_id = category.id 
             WHERE product.deleted = 0";
 
-    // Nếu có danh mục, thêm điều kiện lọc
-    if ($categoryId && $categoryId !== 'all') {
-        $sql .= " AND product.category_id = '$categoryId'";
+    // Kiểm tra xem có điều kiện lọc không
+    if (isset($_GET['categories']) && !empty($_GET['categories'])) {
+        $categoriesChecked = array_map('intval', $_GET['categories']); // Chuyển các giá trị từ checkbox thành số nguyên
+        $categoriesStr = implode(',', $categoriesChecked); // Nối các ID thành chuỗi
+        $sql .= " AND product.category_id IN ($categoriesStr)"; // Thêm điều kiện lọc
     }
 
-    // Lấy dữ liệu sản phẩm
-    $products = executeResult($sql);
+    // Thực thi câu lệnh SQL để lấy sản phẩm
+    $filteredProducts = executeResult($sql);
 
-    // Phân trang
+    // Phân trang (cố định 6 sản phẩm trên mỗi trang)
     $pageSize = 6;
-    $totalProducts = count($products);
+    $totalProducts = count($filteredProducts);
     $totalPages = ceil($totalProducts / $pageSize);
-
-    // Lấy danh mục
-    $sql1 = "SELECT * FROM category";
-    $categories = executeResult($sql1);
 ?>
 
 <!DOCTYPE html>
@@ -187,79 +189,64 @@
         <div class="shop">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-3 col-12">
+                <div class="col-lg-3 col-12">
+                    <form action="" method="GET">
                         <div class="filter">
                             <div class="loaihang">
                                 <div class="accordion" id="accordionExample">
                                     <div class="accordion-item">
-                                      <h2 class="accordion-header" id="headingOne">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                          Loại sản phẩm
-                                        </button>
-                                      </h2>
-                                      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                        <div class="accordion-body">
-                                            <ul>
-                                                <li class="all-sp">
-                                                    <a href="?category_id=all">Tất cả</a>
-                                                </li>
-                                                <?php foreach ($categories as $category): ?>
-                                                    <li class="check-<?= strtolower($category['name']) ?>">
-                                                        <a href="?category_id=<?= $category['id'] ?>"><?= $category['name'] ?></a>
-                                                    </li>
-                                                <?php endforeach; ?>
-                                            </ul>
+                                        <h2 class="accordion-header" id="headingOne">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                Loại sản phẩm
+                                            </button>
+                                        </h2>
+                                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <?php
+                                                if (!empty($categories)) {
+                                                    $categoriesChecked = isset($_GET['categories']) ? $_GET['categories'] : [];
+                                                    foreach ($categories as $category) {
+                                                        $checked = in_array($category['id'], $categoriesChecked) ? "checked" : "";
+                                                        ?>
+                                                        <div>
+                                                            <input type="checkbox" name="categories[]" value="<?= $category['id']; ?>" <?= $checked; ?> />
+                                                            <?= $category['name']; ?>
+                                                        </div>
+                                                        <?php
+                                                    }
+                                                } else {
+                                                    echo "Không tìm thấy danh mục!";
+                                                }
+                                                ?>
+                                                <button type="submit" class="button-filter">Lọc</button>
+                                            </div>
                                         </div>
-                                    </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="loctheogia">
-                                <div class="accordion accordion-flush" id="accordionFlushExample">
-                                    <div class="accordion-item">
-                                      <h2 class="accordion-header" id="flush-headingOne">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                            Mức giá
-                                        </button>
-                                      </h2>
-                                      <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                                        <div class="accordion-body text-center">
-                                            <div class="ranger-slider">
-                                                <div id="slider-range"></div>
-                                                <div class="price-filter d-flex align-items-center justify-content-center">
-                                                    <p>Giá:</p><strong></strong> <span id="slider-range-value1"></span><span>-</span><strong></strong> <span id="slider-range-value2"></span>
-                                                </div>
-                                            </div>
-                                            <button class="button-filter">Lọc</button>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-9 col-12">
-                        <div class="boloc d-flex">
-                            <p class="giacao"><i class="fas fa-sort-amount-up"></i>Giá cao</p>
-                            <p class="giathap"><i class="fas fa-sort-amount-down-alt"></i>Giá thấp</p>
-                        </div>
-                        <div id="product-container" class="product-page">
-                            <div class="row">
-                                <?php
+                    </form>
+                </div>
+
+                <div class="col-lg-9 col-12">
+                    <div id="product-container" class="product-page">
+                        <div class="row">
+                            <?php
+                            if (!empty($filteredProducts)) {
                                 for ($i = 0; $i < $totalProducts; $i++) {
-                                    $product = $products[$i];
+                                    $product = $filteredProducts[$i];
                                     ?>
-                                    <div class="col-lg-4 col-md-6 nopadding product-item" data-page="<?php echo floor($i / $pageSize) + 1; ?>">
+                                    <div class="col-lg-4 col-md-6 nopadding product-item" data-page="<?= floor($i / $pageSize) + 1; ?>">
                                         <div class="product">
-                                            <a href="detail.php?id=<?= $product['id'] ?>">
-                                                <img src="<?php echo fixUrl($product['picture']); ?>" alt="<?php echo $product['title']; ?>" class="product-img">
+                                            <a href="detail.php?id=<?= $product['id']; ?>">
+                                                <img src="<?= fixUrl($product['picture']); ?>" alt="<?= $product['title']; ?>" class="product-img">
                                                 <div class="product-info">
-                                                    <p class="name-product text-center"><?php echo $product['title']; ?></p>
+                                                    <p class="name-product text-center"><?= $product['title']; ?></p>
                                                     <div class="price-product text-center">
-                                                        <p class="price"><?php echo number_format($product['price'], 0, ',', '.'); ?> đ</p>
+                                                        <p class="price"><?= number_format($product['price'], 0, ',', '.'); ?> đ</p>
                                                     </div>
                                                     <div class="buttons d-flex">
-                                                        <button class="addCart" onclick="addToCart('<?php echo $product['id']; ?>', '<?php echo $product['title']; ?>', 1, <?php echo $product['price']; ?>, '<?php echo $product['picture']; ?>')">
+                                                        <button class="addCart" onclick="addToCart('<?= $product['id']; ?>', '<?= $product['title']; ?>', 1, <?= $product['price']; ?>, '<?= $product['picture']; ?>')">
                                                             <i class="fas fa-cart-plus"></i> Thêm vào giỏ
                                                         </button>
                                                     </div>
@@ -269,12 +256,16 @@
                                     </div>
                                     <?php
                                 }
-                                ?>
-                            </div>
+                            } else {
+                                echo "<p>Không tìm thấy sản phẩm phù hợp!</p>";
+                            }
+                            ?>
                         </div>
-
-                        <div id="pagination" class="pagination justify-content-center d-flex"></div>
                     </div>
+
+                    <div id="pagination" class="pagination justify-content-center d-flex"></div>
+                </div>
+
                 </div>
             </div>
         </div>
