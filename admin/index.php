@@ -15,8 +15,11 @@ header("content-type:text/html; charset=UTF-8");
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wood Shop</title>
+  <title>Manager Luxury Home</title>
   <link rel="stylesheet" href="./style.css">
+  
+  <!-- <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico"> -->
+  <link rel="shortcut icon" type="image/x-icon" href="images/logo1.png">
   <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 </head>
@@ -35,7 +38,7 @@ header("content-type:text/html; charset=UTF-8");
       </button>
       <!-- Brand -->
       <a class="navbar-brand py-lg-2 mb-lg-5 px-lg-6 me-0" href="#">
-        <h3 class="text-success"><img src="/Web/images/logo1.png" width="40" ><span class="text-info">LUXURY</span>SHOP</h3> 
+        <h3 class="text-success"><img src="/Web/images/logo1.png" width="40" ><span class="text-info">LUXURY</span>HOME</h3> 
       </a>
       <!-- Divider -->
       <hr class="navbar-divider my-18 opacity-20">
