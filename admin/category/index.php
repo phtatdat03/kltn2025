@@ -1,136 +1,360 @@
+<?php 
+  session_start();
+	if(!isset($_COOKIE['tendangnhap_admin'])){
+    header('Location: login.php');
+	}
+ ?>
+
+<?php require_once('../database/dbhelper.php'); ?>
 <?php
-    $title = 'Quản lý danh mục sản phẩm';
-    $baseUrl = '../';
-    require_once('../layouts/side_bar.php');
-    require_once('form_save.php');
-    $id = $name = '';
-    if (isset($_GET['id'])) {
-        $id = getGet('id');
-        $sql = "SELECT * FROM category WHERE id = $id";
-        $data = executeResult($sql, true);
-        
-        if ($data != null) {
-            $name = $data['name'];
-        }
-    }
-    
-    $sql = "SELECT * FROM category";
-    $data = executeResult($sql);
+header("content-type:text/html; charset=UTF-8");
 ?>
-        <div id="page-content-wrapper">
-            <!-- navbar -->
-            <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
-                <div class="d-flex align-items-center">
-                    <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
-                    <h2 class="fs-2 m-0">Quản lý danh mục sản phẩm</h2>
-                </div>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bảng điều khiển Luxury Home</title>
+  <link rel="stylesheet" href="../style.css">
+  <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!-- Popper JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <!-- Latest compiled JavaScrseipt -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  <script src="../script.js"></script>
+</head>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle second-text fw-bold" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user me-2"></i>
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li>                                      
-                                    <a href="<?=$baseUrl?>authen/logout.php" class="dropdown-item">Thoát</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-            <!-- end navbar -->
-
-            <!-- page content -->
-            <div class="container-fluid px-4" style="padding: 20px;">
-                <div class="row my-4" style="display: flex; gap: 20px;">
-                    <!-- Bảng hiển thị danh mục-->
-                    <div class="col-md-8" style="flex:2;">
-                        <h3 class="fs-4 mb-3" style="margin-bottom: 20px;">Quản lý danh mục sản phẩm</h3>
-                        <div class="table-responsive" style="border: 1px solid #ddd; border-radius: 8px; padding: 10px;">
-                            <table class="table table-striped table-bordered" style="width: 100%; text-align: center;">
-                                <thead>
-                                    <tr style="background-color: #f8f9fa;">
-                                        <th style="padding: 10px;">STT</th>
-                                        <th style="padding: 10px;">Tên danh mục</th>
-                                        <th style="width: 50px; padding: 10px"></th>
-                                        <th style="width: 50px; padding: 10px"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                        $index = 0;
-                                        foreach ($data as $item) {
-                                            echo '<tr>
-                                                    <td style="padding: 10px;">'.(++$index).'</td>
-                                                    <td style="padding: 10px;">'.$item['name'].'</td>
-                                                    <td style="padding: 10px; width: 50px">
-                                                        <a href="?id='.$item['id'].'">
-                                                        <button class="btn btn-warning style="width: 100%; background-color: #ffc107;
-                                                        color: #fff; border: none; border-radius: 5px;">Sửa</button>
-                                                        </a>
-                                                    </td>
-                                                    <td style="padding: 10px; width: 50px">
-                                                        <button onclick="deleteCategory('.$item['id'].')" class="btn btn-danger style="width: 100%; background-color: #dc3545; color: #fff; border: none; border-radius: 5px;">Xóa</button>
-                                                    </td>
-                                                </tr>';
-                                        }
-                                    ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <!-- Form nhập danh mục-->
-                    <div class="col-md-4" style="flex: 1;">
-                        <h3 class="fs-4 mb-3" style="margin-bottom: 20px;">Tên danh mục sản phẩm</h3>
-                        <form method="POST" action="index.php" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-                            <div class="mb-3">
-                                <input type="text" class="form-control" id="categoryName" value="<?=$name?>" name="name" placeholder="Nhập tên danh mục" required style="border: 1px solid #ddd; padding: 10px; border-radius: 5px;">
-                                <input type="text" name="id" value="<?=$id?>" hidden="true">
-                            </div>
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary" style="background-color: #007bff; border: none; padding: 10px; border-radius: 5px;">Lưu</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- page content -->
-        </div>
+<body>
+<!-- Dashboard -->
+<div class="d-flex flex-column flex-lg-row h-lg-full bg-surface-secondary">
+  <!-- Vertical Navbar -->
+  <nav class="navbar show navbar-vertical h-lg-screen navbar-expand-lg px-0 py-3 navbar-light bg-white border-bottom border-bottom-lg-0 border-end-lg" id="navbarVertical">
+    <div class="container-fluid">
+      <!-- Toggler -->
+      <button class="navbar-toggler ms-n2" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapse" aria-controls="sidebarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- Brand -->
+      <a class="navbar-brand py-lg-2 mb-lg-5 px-lg-6 me-0" href="#">
+        <h3 class="text-success"><img src="/Web/images/logo1.png" width="40" ><span class="text-info">LUXURY</span>HOME</h3> 
+      </a>
+      
+      <!-- Divider -->
+      <hr class="navbar-divider my-18 opacity-20">
+      <!-- Collapse -->
+      <div class="collapse navbar-collapse" id="sidebarCollapse">
+        <!-- Navigation -->
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="../index.php">
+              <i class="bi bi-speedometer2"></i> Bảng điều khiển
+            </a>
+          </li>
+          <hr class="navbar-divider my-3 opacity-20">
+          <li class="nav-item">
+            <a class="nav-link" href="../product/index.php">
+              <i class="bi bi-bag-heart"></i>Quản Lý Sản Phẩm
+            </a>
+          </li>
+          <!-- Divider -->
+          <hr class="navbar-divider my-3 opacity-20">
+          <li class="nav-item">
+            <a class="nav-link" href="../user/index.php">
+              <i class="bi bi-person-check"></i>Quản Lý Khách Hàng
+            </a>
+          </li>
+          <hr class="navbar-divider my-3 opacity-20">
+          <li class="nav-item">
+            <a class="nav-link" href="../order.php">
+              <i class="bi bi-cash-stack"></i>Quản Lý Đơn Hàng
+            </a>
+          </li>
+          <hr class="navbar-divider my-3 opacity-20">
+          <li class="nav-item">
+            <a class="nav-link" href="../category/index.php">
+              <i class="bi bi-bag-heart"></i>Quản Lý Danh Mục
+            </a>
+          </li>
+          <hr class="navbar-divider my-3 opacity-20">
+          <li class="nav-item">
+            <a class="nav-link" href="../collection/index.php">
+              <i class="bi bi-collection"></i>Quản Lý Thương Hiệu
+            </a>
+          </li>
+        </ul>
+        <!-- Divider -->
+        <hr class="navbar-divider my-18 opacity-20">
+        <!-- Push content down -->
+        <div class="mt-auto"></div>
+        <!-- User (md) -->
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="../../index.php">
+              <i class="bi bi-house-heart-fill"></i></i> Trang chủ
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../logout.php" onclick="return confirm('Bạn có chắc chắn muốn đăng xuất không?')">
+              <i class="bi bi-box-arrow-left"></i> Đăng xuất
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
+  </nav>
+  <!-- Main content -->
+  <div class="h-screen flex-grow-1 overflow-y-lg-auto">
+      <!-- Header -->
+      <header class="bg-surface-primary border-bottom pt-6">
+          <div class="container-fluid">
+              <div class="mb-npx">
+                  <div class="row align-items-center">
+                      <div class="col-sm-6 col-12 mb-4 mb-sm-0">
+                          <!-- Title -->
+                          <h1 class="h2 mb-0 ls-tight">
+                              <img src="/Web/images/logo1.png" width="60"> Luxury Home</h1>
+                      </div>
+                      <!-- Actions -->
+                      
+                  </div>
+                  
+              </div>
+          </div>
+      </header>
+      <!-- Main -->
+      <main class="py-6 bg-surface-secondary">
+          <div class="container-fluid">
+              <!-- Card stats -->
+              <div class="row g-6 mb-6">
+                  <div class="col-xl-3 col-sm-6 col-12">
+                      <div class="card shadow border-0">
+                          <div class="card-body">
+                              <div class="row">
+                                  <div class="col">
+                                      <span class="h6 font-semibold text-muted text-sm d-block mb-2">Sản Phẩm</span>
+                                      
+                                      <span class="h3 font-bold mb-0">
+                                          <?php
+                                      $sql = "SELECT * FROM `product`";
+                                      $conn = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
+                                      $result = mysqli_query($conn, $sql);
+                                      echo '<span>' . mysqli_num_rows($result) . '</span>';
+                                      ?>
+                                      </span>
+                                  </div>
+                                  <div class="col-auto">
+                                      <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
+                                          <i class="bi bi-credit-card"></i>
+                                      </div>
+                                  </div>
+                              </div>
+                              
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-xl-3 col-sm-6 col-12">
+                      <div class="card shadow border-0">
+                          <div class="card-body">
+                              <div class="row">
+                                  <div class="col">
+                                      <span class="h6 font-semibold text-muted text-sm d-block mb-2">Khách Hàng</span>
+                                      <span class="h3 font-bold mb-0">
+                                          <?php
+                                          $sql = "SELECT * FROM `user`";
+                                          $conn = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
+                                          $result = mysqli_query($conn, $sql);
+                                          echo '<span>' . mysqli_num_rows($result) . '</span>';
+                                          ?>
+                                      </span>
+                                  </div>
+                                  <div class="col-auto">
+                                      <div class="icon icon-shape bg-primary text-white text-lg rounded-circle">
+                                          <i class="bi bi-people"></i>
+                                      </div>
+                                  </div>
+                              </div>
+                              
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-xl-3 col-sm-6 col-12">
+                      <div class="card shadow border-0">
+                          <div class="card-body">
+                              <div class="row">
+                                  <div class="col">
+                                      <span class="h6 font-semibold text-muted text-sm d-block mb-2">Đơn Hàng</span>
+                                      <span class="h3 font-bold mb-0">
+                                          <?php
+                                          $sql = "SELECT * FROM `order_details`";
+                                          $conn = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
+                                          $result = mysqli_query($conn, $sql);
+                                          echo '<span>' . mysqli_num_rows($result) . '</span>';
+                                          ?>
+                                      </span>
+                                  </div>
+                                  <div class="col-auto">
+                                      <div class="icon icon-shape bg-info text-white text-lg rounded-circle">
+                                          <i class="bi bi-clock-history"></i>
+                                      </div>
+                                  </div>
+                              </div>
+                            
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-xl-3 col-sm-6 col-12">
+                      <div class="card shadow border-0">
+                          <div class="card-body">
+                              <div class="row">
+                                  <div class="col">
+                                      <span class="h6 font-semibold text-muted text-sm d-block mb-2">Danh Mục</span>
+                                      <span class="h3 font-bold mb-0">
+                                          <?php
+                                          $sql = "SELECT * FROM `category`";
+                                          $conn = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
+                                          $result = mysqli_query($conn, $sql);
+                                          echo '<span>' . mysqli_num_rows($result) . '</span>';
+                                          ?>
+                                      </span>
+                                  </div>
+                                  <div class="col-auto">
+                                      <div class="icon icon-shape bg-warning text-white text-lg rounded-circle">
+                                          <i class="bi bi-minecart-loaded"></i>
+                                      </div>
+                                  </div>
+                              </div>
+                              
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="card shadow border-0 mb-7">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                      <h5 class="mb-0">Danh Mục Sản Phẩm</h5>
+                      <a href="add.php" class="btn d-inline-flex btn-sm btn-primary mx-1">
+                                  <span class=" pe-2">
+                                      <i class="bi bi-plus"></i>
+                                  </span>
+                                  <span>Thêm Danh Mục</span>
+                      </a>
+                  </div>
+                  
+                  <div class="table-responsive">
+                      <table class="table table-hover table-nowrap">
+                          <thead class="thead-light">
+                              <tr>
+                                  <th scope="col">Số Thứ Tự</th>
+                                  <th scope="col">Danh Mục</th>
+                                  <th></th>
+                                  <th></th>
+                              </tr>
+                          </thead>
+                          
+                          <tbody>
+                              <tr>
+                                  <?php
+                                      // Lấy danh sách Sản Phẩm
+                                      if (!isset($_GET['page'])) {
+                                          $pg = 1;
+                                          echo 'Bạn đang ở trang: 1';
+                                      } else {
+                                          $pg = $_GET['page'];
+                                          echo 'Bạn đang ở trang: ' . $pg;
+                                      }
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+                                      try {
 
-<!-- Hàm xóa danh mục -->
-<script type="text/javascript">
-    function deleteCategory(id) { // truyền vào id danh mục
-        option = confirm('Xác nhận xóa danh mục?')
-        if (!option) return; 
-        $.post('form_api.php', { // gửi request = AJAX(JQuery) 
-            'id': id,
-            'action': 'delete'
-        }, function(data) {
-            if(data != null && data != '' ){
-                alert(data);
-                return;
-            }
-            location.reload()
-        })
-    }
-</script>
-<script>
-    var el = document.getElementById("wrapper")
-    var toggleButton = document.getElementById("menu-toggle")
+                                          if (isset($_GET['page'])) {
+                                              $page = $_GET['page'];
+                                          } else {
+                                              $page = 1;
+                                          }
+                                          $limit = 5;
+                                          $start = ($page - 1) * $limit;
+                                          $sql = "SELECT * FROM category limit $start,$limit";;
+                                          executeResult($sql);
+                                          // $sql = 'select * from product limit $star,$limit';
+                                          $categoryList = executeResult($sql);
 
-    toggleButton.onclick = function () {
-        el.classList.toggle("toggled")
-    }
-</script>
+                                          $index = 1;
+                                          foreach ($categoryList as $item) {
+                                              echo '  <tr>
+                                                          <td>' . ($index++) . '</td>
+                                                          <td class="text-heading font-semibold">' . $item['name'] . '</td>                                                         
+                                                          <td>
+                                                              <a href="add.php?id=' . $item['id'] . '">
+                                                                  <button class=" btn btn-warning">Sửa</button> 
+                                                              </a> 
+                                                          </td>
+                                                          <td>            
+                                                          <button class="btn btn-danger" onclick="deleteCategory('.$item['id'].')">Xoá</button>
+                                                          </td>
+                                                      </tr>';
+                                          }
+                                      } catch (Exception $e) {
+                                          die("Lỗi thực thi sql: " . $e->getMessage());
+                                      }
+                                  ?>
+                                  
+                              </tr>
+                              
+                          </tbody>
+                      </table>
+                  </div>
+                  <div class="card-footer border-0 py-5">
+                      
+                      <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                        <?php
+                          $sql = "SELECT * FROM `product`";
+                          $conn = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
+                          $result = mysqli_query($conn, $sql);
+                          if (mysqli_num_rows($result)) {
+                              $numrow = mysqli_num_rows($result);
+                              $current_page = ceil($numrow / 5);
+                              // echo $current_page;
+                          }
+                          for ($i = 1; $i <= $current_page; $i++) {
+                              // Nếu là trang hiện tại thì hiển thị thẻ span
+                              // ngược lại hiển thị thẻ a
+                              if ($i == $current_page) {
+                                  echo '
+                          <li class="page-item"><a class="page-link" href="?page=' . $i . '">' . $i . '</a></li>';
+                              } else {
+                                  echo '
+                          <li class="page-item"><a class="page-link" href="?page=' . $i . '">' . $i . '</a></li>
+                                  ';
+                              }
+                          }
+                      ?>
+                        </ul>
+                      </nav>
+                  </div>
+              </div>
+          </div>
+      </main>
+  </div>
+</div>
+  <script type="text/javascript">
+		function deleteCategory(id) {
+			var option = confirm('Bạn có chắc chắn muốn xoá danh mục này không?')
+			if(!option) {
+				return;
+			}
+			console.log(id)
+			$.post('ajax.php', {
+				'id': id,
+				'action': 'delete'
+			}, function(data) {
+				location.reload()
+			})
+		}
+	</script>
+  
 </body>
 </html>
