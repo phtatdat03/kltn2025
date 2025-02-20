@@ -273,7 +273,6 @@ header("content-type:text/html; charset=UTF-8");
                                     <th scope="col">Tên Đăng Nhập</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Địa Chỉ</th>
-                                    <!-- <th scope="col">Mật Khẩu</th> -->
                                     <th scope="col">Số Điện Thoại</th>
                                     <th></th>
                                     <th></th>

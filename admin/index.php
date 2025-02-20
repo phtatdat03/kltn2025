@@ -226,7 +226,7 @@ header("content-type:text/html; charset=UTF-8");
         </div>
         <div class="card shadow border-0 mb-7">
           <div class="card-header">
-            <h5 class="mb-0">Đơn hàng mới *</h5>
+            <h5 class="mb-0">Liên hệ mới *</h5>
           </div>
           <div class="table-responsive">
             <table class="table table-hover table-nowrap">
@@ -234,18 +234,16 @@ header("content-type:text/html; charset=UTF-8");
                 <tr>
                   <th scope="col">Số Thứ Tự</th>
                   <th scope="col">Tên Khách Hàng</th>
-                  <th scope="col">Tên Sản Phẩm</th>
-                  <th scope="col">Số Lượng</th>
-                  <th scope="col">Giá Sản Phẩm</th>
-                  <th scope="col">Địa Chỉ</th>
-                  <th scope="col">Số Điện Thoại</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Nội dung</th>
+                  <th scope="col">Ngày gửi</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <?php
-                    // Lấy danh sách Sản Phẩm
+                    
                     if (!isset($_GET['page'])) {
                       $pg = 1;
                       echo 'Bạn đang ở trang: 1';
@@ -259,16 +257,15 @@ header("content-type:text/html; charset=UTF-8");
                       } else {
                         $page = 1;
                       }
-                      $limit = 10;
+                      $limit = 5;
                       $start = ($page - 1) * $limit;
 
-                      $sql = "SELECT * from orders, order_details, product
-                      where order_details.order_id=orders.id and product.id=order_details.product_id ORDER BY order_date DESC limit $start,$limit ";
-                      $order_details_List = executeResult($sql);
+                      $sql = "SELECT * from contact ORDER BY created_at DESC limit $start,$limit ";
+                      $contact_List = executeResult($sql);
                       $total = 0;
                       $count = 0;
-                      // if (is_array($order_details_List) || is_object($order_details_List)){
-                      foreach ($order_details_List as $item) {
+                      
+                      foreach ($contact_List as $item) {
                         echo '
                           <tr>
                             <td> 
@@ -285,31 +282,19 @@ header("content-type:text/html; charset=UTF-8");
 
                             <td> 
                               <a class="text-heading font-semibold" href="#">
-                                ' . $item['title'] . '
+                                ' . $item['email'] . '
                               </a>
                             </td>
 
                             <td> 
                               <a class="text-heading " href="#">
-                                ' . $item['num'] . '
+                                ' . $item['message_contact'] . '
                               </a>
                             </td>
 
                             <td> 
                               <a class="text-heading " href="#">
-                                ' . number_format($item['num'] * $item['price'], 0, ',', '.') . '<span> VNĐ</span>
-                              </a>
-                            </td>
-
-                            <td> 
-                              <a class="text-heading " href="#">
-                                ' . $item['address'] . '
-                              </a>
-                            </td>
-
-                            <td> 
-                              <a class="text-heading " href="#">
-                                ' . $item['phone_number'] . '
+                                ' . $item['created_at'] . '
                               </a>
                             </td>
                           </tr>
@@ -327,7 +312,7 @@ header("content-type:text/html; charset=UTF-8");
             <nav aria-label="Page navigation example">
               <ul class="pagination">
               <?php
-                $sql = "SELECT * FROM `product`";
+                $sql = "SELECT * FROM `contact`";
                 $conn = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
                 $result = mysqli_query($conn, $sql);
                 if (mysqli_num_rows($result)) {
