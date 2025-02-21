@@ -57,7 +57,7 @@ include("Layout/header.php");
             <label for="status-filter"><strong>Lọc theo trạng thái:</strong></label>
               <select name="status" id="status-filter" onchange="this.form.submit()">
                   <option value="">Tất cả</option>
-                  <option value="Đang chuẩn bị hàng" <?php if(isset($_GET['status']) && $_GET['status'] == 'Đang chuẩn bị hàng') echo 'selected'; ?>>Đang chuẩn bị hàng</option>
+                  <option value="Tiếp nhận" <?php if(isset($_GET['status']) && $_GET['status'] == 'Tiếp nhận') echo 'selected'; ?>>Tiếp nhận</option>
                   <option value="Đang giao" <?php if(isset($_GET['status']) && $_GET['status'] == 'Đang giao') echo 'selected'; ?>>Đang giao</option>
                   <option value="Đã nhận hàng" <?php if(isset($_GET['status']) && $_GET['status'] == 'Đã nhận hàng') echo 'selected'; ?>>Đã nhận hàng</option>
                   <option value="Đã hủy" <?php if(isset($_GET['status']) && $_GET['status'] == 'Đã hủy') echo 'selected'; ?>>Đã hủy</option>

@@ -237,6 +237,7 @@ header("content-type:text/html; charset=UTF-8");
                   <th scope="col">Email</th>
                   <th scope="col">Nội dung</th>
                   <th scope="col">Ngày gửi</th>
+                  <th scope="col">Hành động</th>
                   <th></th>
                 </tr>
               </thead>
@@ -295,6 +296,12 @@ header("content-type:text/html; charset=UTF-8");
                             <td> 
                               <a class="text-heading " href="#">
                                 ' . $item['created_at'] . '
+                              </a>
+                            </td>
+
+                            <td>
+                              <a href="delete_contact.php?id=' . $item['id'] . '" onclick="return confirm(\'Bạn có chắc chắn muốn xóa liên hệ này?\')">
+                                <button class="btn btn-danger">Xóa</button>
                               </a>
                             </td>
                           </tr>

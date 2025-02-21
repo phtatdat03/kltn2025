@@ -228,7 +228,7 @@ require_once('utils/utility.php');
                     </nav>
                   </div>
                 </div>
-                  <!-- mobile menu end -->
+                  
                 <div class="right-header re-right-header">
                   <ul>
                     <li class="re-icon tnm"><i class="fa fa-search" aria-hidden="true"></i>

@@ -282,7 +282,7 @@ header("content-type:text/html; charset=UTF-8");
                                                                 <td class="text-heading font-semibold">' . $item['phone_number'] . '</td>
                                                                 <td>
                                                                     <select class="border border-4 text-heading font-semibold" name="status" id="status" onchange="status(' . $item['order_id'] . ')">
-                                                                        <option value="Đang chuẩn bị hàng">Đang chuẩn bị hàng</option>
+                                                                        <option value="Tiếp nhận">Tiếp nhận</option>
                                                                         <option value="Đang giao">Đang giao</option>
                                                                         <option value="Đã nhận hàng">Đã nhận hàng</option>
                                                                         <option value="Đã hủy">Đã hủy</option>
