@@ -291,7 +291,7 @@ header("content-type:text/html; charset=UTF-8");
                           } else {
                               $page = 1;
                           }
-                          $limit = 5;
+                          $limit = 10;
                           $start = ($page - 1) * $limit;
                           $sql = "SELECT * from orders, order_details, product
                           where order_details.order_id=orders.id and product.id=order_details.product_id ORDER BY order_date DESC limit $start,$limit ";
@@ -316,6 +316,9 @@ header("content-type:text/html; charset=UTF-8");
                                 echo '<a href="edit.php?order_id=' . $item['order_id'] . '">
                                           <button class="btn btn-success">Sửa</button> 
                                       </a>';
+                            }
+                            else if ($status == 'Đã hủy') {
+                              echo '<button class="btn btn-danger" onclick="deleteOrder(' . $item['order_id'] . ')">Xoá</button>';
                             }
                             echo '    </td>
                                     </tr>';
@@ -364,5 +367,21 @@ header("content-type:text/html; charset=UTF-8");
     </main>
   </div>
 </div>
+<script type="text/javascript">
+        function deleteOrder(id) {
+            var option = confirm('Bạn có chắc chắn muốn xoá sản phẩm này không?')
+            if (!option) {
+                return;
+            }
+            console.log(id)
+            //ajax - lệnh post
+            $.post('delete_order.php', {
+                'id': id,
+                'action': 'delete'
+            }, function(data) {
+                location.reload()
+            })
+        }
+</script>
 </body>
 </html>
