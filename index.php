@@ -13,13 +13,13 @@ include("Layout/header.php");
 
 <body>
   <!-- POP UP -->
-  <div class="popup-overlay" id="popup">
-        <div class="popup-box">
-          <h2>Cảnh Báo Giả Mạo Thương Hiệu</h2>
-          <p>Quý khách vui lòng cảnh giác với các trang web hoặc số điện thoại giả mạo thương hiệu của chúng tôi. Chúng tôi chỉ cung cấp dịch vụ qua hệ thống chính thức.</p>
-          <button onclick="closePopup()">Đã Hiểu</button>
-        </div>
+  <!-- <div class="popup-overlay" id="popup">
+    <div class="popup-box">
+      <h2>Cảnh Báo Giả Mạo Thương Hiệu</h2>
+      <p>Quý khách vui lòng cảnh giác với các trang web hoặc số điện thoại giả mạo thương hiệu của chúng tôi. Chúng tôi chỉ cung cấp dịch vụ qua hệ thống chính thức.</p>
+      <button onclick="closePopup()">Đã Hiểu</button>
     </div>
+  </div> -->
 
   <section class="slider-main-area">
     <div class="main-slider an-si">
@@ -358,7 +358,7 @@ include("Layout/header.php");
   </section>
 
 
-   <div class="warning-container">
+  <div class="warning-container">
       <img src="images/logo1.png" alt="Logo Nội Thất" class="logo">
       <h1>⚠️ CẢNH BÁO GIẢ MẠO THƯƠNG HIỆU ⚠️</h1>
       <p>Quý khách vui lòng <span class="highlight">CẢNH GIÁC</span> với các trang web hoặc số điện thoại giả mạo <strong>Công ty Nội Thất LUXURY HOME</strong>.</p>
@@ -756,7 +756,7 @@ button {
 
   /* ------------------------NEW ARRIVALS------------------------------*/
   section.main {
-    padding: 0 0;
+    padding: 2rem 0;
     width: 100%;
     margin: 0px auto;
   }

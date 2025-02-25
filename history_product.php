@@ -53,16 +53,17 @@ include("Layout/header.php");
   </div>   ';
               } else {
           ?>
-          <form method="GET" action="">
+          <form class="status-filter-form" method="GET" action="">
             <label for="status-filter"><strong>Lọc theo trạng thái:</strong></label>
-              <select name="status" id="status-filter" onchange="this.form.submit()">
-                  <option value="">Tất cả</option>
-                  <option value="Đang chuẩn bị hàng" <?php if(isset($_GET['status']) && $_GET['status'] == 'Đang chuẩn bị hàng') echo 'selected'; ?>>Đang chuẩn bị hàng</option>
-                  <option value="Đang giao" <?php if(isset($_GET['status']) && $_GET['status'] == 'Đang giao') echo 'selected'; ?>>Đang giao</option>
-                  <option value="Đã nhận hàng" <?php if(isset($_GET['status']) && $_GET['status'] == 'Đã nhận hàng') echo 'selected'; ?>>Đã nhận hàng</option>
-                  <option value="Đã hủy" <?php if(isset($_GET['status']) && $_GET['status'] == 'Đã hủy') echo 'selected'; ?>>Đã hủy</option>
-              </select>
+            <select name="status" id="status-filter" class="status-select" onchange="this.form.submit()">
+              <option value="">Tất cả</option>
+              <option value="Tiếp nhận" <?php if(isset($_GET['status']) && $_GET['status'] == 'Tiếp nhận') echo 'selected'; ?>>Tiếp nhận</option>
+              <option value="Đang giao" <?php if(isset($_GET['status']) && $_GET['status'] == 'Đang giao') echo 'selected'; ?>>Đang giao</option>
+              <option value="Đã nhận hàng" <?php if(isset($_GET['status']) && $_GET['status'] == 'Đã nhận hàng') echo 'selected'; ?>>Đã nhận hàng</option>
+              <option value="Đã hủy" <?php if(isset($_GET['status']) && $_GET['status'] == 'Đã hủy') echo 'selected'; ?>>Đã hủy</option>
+            </select>
           </form>
+
           <table id="shopping-cart-table" class="data-table cart-table">
             <tr>
               <th class="low8">STT</th>
@@ -183,4 +184,35 @@ function updateGrandTotal() {
 </script>
 <hr class="opacity-20">
 <hr class="opacity-20">
+
+<style>
+  .status-filter-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.status-filter-form label {
+  font-size: 16px;
+  color: #333;
+}
+
+.status-filter-form .status-select {
+  padding: 5px 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #333;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.status-filter-form .status-select:focus {
+  border-color: #4a90e2;
+}
+
+</style>
 <?php require_once('Layout/footer.php'); ?>

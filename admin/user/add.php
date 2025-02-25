@@ -78,8 +78,9 @@ if (isset($_GET['id_user'])) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thêm Khách Hàng</title>
+  <title>Thêm/Sửa Khách Hàng</title>
   <link rel="stylesheet" href="../style.css">
+  <link rel="icon" type="image/png" href="../../images/logo1.png">
   <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
   <!-- jQuery library -->
@@ -115,7 +116,7 @@ if (isset($_GET['id_user'])) {
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" href="../index.php">
-                            <i class="bi bi-speedometer2"></i> Bảng điều khiển
+                            <i class="bi bi-speedometer2"></i> Quản lý Liên Hệ
                         </a>
                     </li>
                     <hr class="navbar-divider my-3 opacity-20">
@@ -296,7 +297,7 @@ if (isset($_GET['id_user'])) {
                         </div>
                     </div>
                 </div>
-                <div class="card shadow border-0 mb-7">
+                <div class="card shadow border-0 mb-7"  style="padding: 20px">
                     <div class="card-header">
                         <h5 class="mb-0">Thông Tin Khách Hàng</h5>
                     </div>
@@ -305,28 +306,28 @@ if (isset($_GET['id_user'])) {
                             <div class="panel-body">
                                 <form method="POST" enctype="multipart/form-data">
                                     <div class="form-group">
-                                        <label for="name">Tên Khách Hàng:</label>
+                                        <label for="name" style="margin-left: 10px" >Tên Khách Hàng:</label>
                                         <input type="text" id="id_user" name="id_user" value="<?= $id_user ?>" hidden="true">
                                         <input required="true" type="text" class="form-control" id="fullname" name="fullname" value="<?= $fullname ?>">
                                     </div>
                                     <div class="form-group">
-                                        <label for="name">Tên Đăng Nhập:</label>
+                                        <label for="name" style="margin-left: 10px">Tên Đăng Nhập:</label>
                                         <input required="true" type="text" class="form-control" id="tendangnhap" name="tendangnhap" value="<?= $tendangnhap ?>">
                                     </div>
                                     <div class="form-group">
-                                        <label for="name">Email:</label>
+                                        <label for="name" style="margin-left: 10px">Email:</label>
                                         <input required="true" type="text" class="form-control" id="email" name="email" value="<?= $email ?>">
                                     </div>
                                     <div class="form-group">
-                                        <label for="name">Địa Chỉ:</label>
+                                        <label for="name" style="margin-left: 10px">Địa Chỉ:</label>
                                         <input required="true" type="text" class="form-control" id="diachi" name="diachi" value="<?= $diachi ?>">
                                     </div>
                                     <div class="form-group">
-                                        <label for="name">Mật Khẩu:</label>
+                                        <label for="name" style="margin-left: 10px">Mật Khẩu:</label>
                                         <input required="true" type="text" class="form-control" id="matkhau" name="matkhau" value="<?= $matkhau ?>">
                                     </div>
                                     <div class="form-group">
-                                        <label for="name">Số Điện Thoại:</label>
+                                        <label for="name" style="margin-left: 10px">Số Điện Thoại:</label>
                                         <input required="true" type="text" class="form-control" id="dienthoai" name="dienthoai" value="<?= $dienthoai ?>">
                                     </div>
                                     <hr class="navbar-divider my-3 opacity-20">

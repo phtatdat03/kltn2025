@@ -61,6 +61,7 @@ a:focus {
 }
 img {
   max-width: 100%;
+  margin-left: 50px;
 }
 .fix {
   overflow: hidden;
@@ -76,7 +77,6 @@ h5,
 h6 {
   margin: 0 0 10px;
   font-family: "Poppins", sans-serif;
-  text-transform: uppercase;
   font-weight: 600;
 }
 a {
@@ -399,7 +399,7 @@ header li i {
   margin: 0;
   padding-top: 10px;
   padding-right: 15px;
-  padding-bottom: 0px;
+  padding-bottom: 10px;
   padding-left: 15px;
 }
 .right-header ul li ul li a {
@@ -483,7 +483,7 @@ ul.drop-setting li,
 }
 .right-header ul.drop-cart,
 .mainmenu ul li ul {
-  width: 237px;
+  width: 300px;
 }
 .drop-cart img {
   float: left;
@@ -556,7 +556,7 @@ ul.drop-setting li,
   display: block;
   font-size: 12px;
   font-weight: 400;
-  padding: 10px 0;
+  padding: 12px 0;
 }
 .checkout-btn a:hover,
 .mainmenu a::after,
@@ -645,7 +645,7 @@ ul.drop-setting li,
 }
 .right-header ul.drop-cart,
 .mainmenu ul li ul {
-  width: 237px;
+  width: 300px;
 }
 .mainmenu ul li ul {
   left: -50%;
@@ -1030,7 +1030,7 @@ i.pe-7s-back {
 }
 .product-dsc h3 a {
   color: #333;
-  font-size: 13px;
+  font-size: 16px;
 }
 .product-dsc span {
   color: #333333;
@@ -4403,7 +4403,7 @@ a.o-back-to:hover {
   right: 10px;
   top: 41%;
 }
-.related-title::before {
+/* .related-title::before {
   background: #ddd none repeat scroll 0 0;
   content: "";
   height: 1px;
@@ -4412,9 +4412,9 @@ a.o-back-to:hover {
   top: 50%;
   width: 100%;
   z-index: -1;
-}
+} */
 .related-title {
-  position: relative;
+  /* position: relative; */
 }
 .related-title h2 {
   background-color: #fff;
@@ -5129,6 +5129,7 @@ li {
 
 .left {
   display: flex;
+  width: 80%;
   padding-right: 30px;
 }
 .main_image {
@@ -5314,7 +5315,7 @@ section.comment .container .post {
   flex-flow: column;
 }
 section.main {
-  padding: 2rem 0;
+  padding: 7rem 0;
   width: 100%;
   margin: 0px auto;
 }
@@ -5403,7 +5404,7 @@ section.main section.recently .product-recently .row .col .more .time img {
 /* end san pham gần bạn  */
 
 section.main section.restaurants {
-  padding: 3rem 0;
+  padding: 6rem 0;
 }
 
 section.main section.restaurants .link a {

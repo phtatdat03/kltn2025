@@ -15,11 +15,11 @@ header("content-type:text/html; charset=UTF-8");
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manager Luxury Home</title>
+  <title>Luxury Home Management</title>
   <link rel="stylesheet" href="./style.css">
   
   <!-- <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico"> -->
-  <link rel="shortcut icon" type="image/x-icon" href="images/logo1.png">
+  <link rel="shortcut icon" type="image/x-icon" href="../images/logo1.png">
   <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 </head>
@@ -48,7 +48,7 @@ header("content-type:text/html; charset=UTF-8");
         <ul class="navbar-nav">
           <li class="nav-item">
             <a class="nav-link" href="index.php">
-              <i class="bi bi-speedometer2"></i> Bảng điều khiển
+              <i class="bi bi-speedometer2"></i> Quản lý Liên Hệ
             </a>
           </li>
           <hr class="navbar-divider my-3 opacity-20">
@@ -61,7 +61,7 @@ header("content-type:text/html; charset=UTF-8");
           <hr class="navbar-divider my-3 opacity-20">
           <li class="nav-item">
             <a class="nav-link" href="user/index.php">
-              <i class="bi bi-person-check"></i>Quản Lý Người Dùng
+              <i class="bi bi-person-check"></i>Quản Lý Khách Hàng
             </a>
           </li>
           <hr class="navbar-divider my-3 opacity-20">
@@ -224,9 +224,9 @@ header("content-type:text/html; charset=UTF-8");
             </div>
           </div>
         </div>
-        <div class="card shadow border-0 mb-7">
+        <div class="card shadow border-0 mb-7" style="padding: 20px">
           <div class="card-header">
-            <h5 class="mb-0">Đơn hàng mới *</h5>
+            <h5 class="mb-0">LIÊN HỆ MỚI</h5>
           </div>
           <div class="table-responsive">
             <table class="table table-hover table-nowrap">
@@ -234,18 +234,17 @@ header("content-type:text/html; charset=UTF-8");
                 <tr>
                   <th scope="col">Số Thứ Tự</th>
                   <th scope="col">Tên Khách Hàng</th>
-                  <th scope="col">Tên Sản Phẩm</th>
-                  <th scope="col">Số Lượng</th>
-                  <th scope="col">Giá Sản Phẩm</th>
-                  <th scope="col">Địa Chỉ</th>
-                  <th scope="col">Số Điện Thoại</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Nội dung</th>
+                  <th scope="col">Ngày gửi</th>
+                  <th scope="col">Hành động</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <?php
-                    // Lấy danh sách Sản Phẩm
+                    
                     if (!isset($_GET['page'])) {
                       $pg = 1;
                       echo 'Bạn đang ở trang: 1';
@@ -259,16 +258,15 @@ header("content-type:text/html; charset=UTF-8");
                       } else {
                         $page = 1;
                       }
-                      $limit = 10;
+                      $limit = 5;
                       $start = ($page - 1) * $limit;
 
-                      $sql = "SELECT * from orders, order_details, product
-                      where order_details.order_id=orders.id and product.id=order_details.product_id ORDER BY order_date DESC limit $start,$limit ";
-                      $order_details_List = executeResult($sql);
+                      $sql = "SELECT * from contact ORDER BY created_at DESC limit $start,$limit ";
+                      $contact_List = executeResult($sql);
                       $total = 0;
                       $count = 0;
-                      // if (is_array($order_details_List) || is_object($order_details_List)){
-                      foreach ($order_details_List as $item) {
+                      
+                      foreach ($contact_List as $item) {
                         echo '
                           <tr>
                             <td> 
@@ -285,31 +283,25 @@ header("content-type:text/html; charset=UTF-8");
 
                             <td> 
                               <a class="text-heading font-semibold" href="#">
-                                ' . $item['title'] . '
+                                ' . $item['email'] . '
                               </a>
                             </td>
 
                             <td> 
                               <a class="text-heading " href="#">
-                                ' . $item['num'] . '
+                                ' . $item['message_contact'] . '
                               </a>
                             </td>
 
                             <td> 
                               <a class="text-heading " href="#">
-                                ' . number_format($item['num'] * $item['price'], 0, ',', '.') . '<span> VNĐ</span>
+                                ' . $item['created_at'] . '
                               </a>
                             </td>
 
-                            <td> 
-                              <a class="text-heading " href="#">
-                                ' . $item['address'] . '
-                              </a>
-                            </td>
-
-                            <td> 
-                              <a class="text-heading " href="#">
-                                ' . $item['phone_number'] . '
+                            <td>
+                              <a href="delete_contact.php?id=' . $item['id'] . '" onclick="return confirm(\'Bạn có chắc chắn muốn xóa liên hệ này?\')">
+                                <button class="btn btn-danger">Xóa</button>
                               </a>
                             </td>
                           </tr>
@@ -327,7 +319,7 @@ header("content-type:text/html; charset=UTF-8");
             <nav aria-label="Page navigation example">
               <ul class="pagination">
               <?php
-                $sql = "SELECT * FROM `product`";
+                $sql = "SELECT * FROM `contact`";
                 $conn = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
                 $result = mysqli_query($conn, $sql);
                 if (mysqli_num_rows($result)) {

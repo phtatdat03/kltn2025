@@ -55,6 +55,7 @@ if (isset($_GET['id'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sửa Thương Hiệu Sản Phẩm</title>
   <link rel="stylesheet" href="../style.css">
+  <link rel="icon" type="image/png" href="../../images/logo1.png">
   <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
   <!-- jQuery library -->
@@ -110,7 +111,7 @@ if (isset($_GET['id'])) {
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" href="../index.php">
-                            <i class="bi bi-speedometer2"></i> Bảng điều khiển
+                            <i class="bi bi-speedometer2"></i> Quản lý Liên Hệ
                         </a>
                     </li>
                     <hr class="navbar-divider my-3 opacity-20">
@@ -293,9 +294,9 @@ if (isset($_GET['id'])) {
                         </div>
                     </div>
                 </div>
-                <div class="card shadow border-0 mb-7">
+                <div class="card shadow border-0 mb-7" style="padding: 20px">
                     <div class="card-header">
-                        <h5 class="mb-0">Thương Hiệu Sản Phẩm</h5>
+                        <h5 class="mb-0">THƯƠNG HIỆU SẢN PHẨM</h5>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover table-nowrap">
@@ -314,7 +315,7 @@ if (isset($_GET['id'])) {
                                     $previous = $_SERVER['HTTP_REFERER'];
                                 }
                                 ?>
-                                <a href="<?= $previous ?>" class="btn btn-warning">Back</a>
+                                <a href="<?= $previous ?>" class="btn btn-warning">Quay lại</a>
                             </form>
                         </div>
                         </table>

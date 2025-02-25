@@ -17,6 +17,7 @@ header("content-type:text/html; charset=UTF-8");
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quản Lý Thương Hiệu/Bộ Sưu Tập</title>
   <link rel="stylesheet" href="../style.css">
+  <link rel="icon" type="image/png" href="../../images/logo1.png">
   <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
   <!-- jQuery library -->
@@ -52,7 +53,7 @@ header("content-type:text/html; charset=UTF-8");
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" href="../index.php">
-                            <i class="bi bi-speedometer2"></i> Bảng điều khiển
+                            <i class="bi bi-speedometer2"></i> Quản lý Liên Hệ
                         </a>
                     </li>
                     <hr class="navbar-divider my-3 opacity-20">
@@ -235,14 +236,14 @@ header("content-type:text/html; charset=UTF-8");
                         </div>
                     </div>
                 </div>
-                <div class="card shadow border-0 mb-7">
+                <div class="card shadow border-0 mb-7" style="padding: 20px">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Thương Hiệu/Bộ Sưu Tập Sản Phẩm</h5>
+                        <h5 class="mb-0">DANH SÁCH THƯƠNG HIỆU/BỘ SƯU TẦP SẢN PHẨM</h5>
                         <a href="add.php" class="btn d-inline-flex btn-sm btn-primary mx-1">
                                     <span class=" pe-2">
                                         <i class="bi bi-plus"></i>
                                     </span>
-                                    <span>Thêm Thương Hiệu/Bộ Sưu Tập</span>
+                                    <span>Thêm Thương Hiệu</span>
                         </a>
                     </div>
                     

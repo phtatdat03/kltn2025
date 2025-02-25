@@ -14,8 +14,9 @@ header("content-type:text/html; charset=UTF-8");
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bảng điều khiển Luxury Home</title>
+  <title>Quản lý Đơn Hàng</title>
   <link rel="stylesheet" href="./style.css">
+  <link rel="icon" type="image/png" href="../images/logo1.png">
   <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
   <!-- jQuery library -->
@@ -71,7 +72,7 @@ header("content-type:text/html; charset=UTF-8");
         <ul class="navbar-nav">
           <li class="nav-item">
             <a class="nav-link" href="index.php">
-              <i class="bi bi-speedometer2"></i> Bảng điều khiển
+              <i class="bi bi-speedometer2"></i> Quản lý Liên Hệ
             </a>
           </li>
           <hr class="navbar-divider my-3 opacity-20">
@@ -250,9 +251,9 @@ header("content-type:text/html; charset=UTF-8");
             </div>
           </div>
         </div>
-        <div class="card shadow border-0 mb-7">
+        <div class="card shadow border-0 mb-7" style="padding: 20px">
           <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Quản Lý Đơn Hàng</h5>
+            <h5 class="mb-0">QUẢN LÝ ĐƠN HÀNG</h5>
           </div>
           <div class="table-responsive">
             <table class="table table-hover table-nowrap">
@@ -291,7 +292,7 @@ header("content-type:text/html; charset=UTF-8");
                           } else {
                               $page = 1;
                           }
-                          $limit = 5;
+                          $limit = 10;
                           $start = ($page - 1) * $limit;
                           $sql = "SELECT * from orders, order_details, product
                           where order_details.order_id=orders.id and product.id=order_details.product_id ORDER BY order_date DESC limit $start,$limit ";
@@ -314,8 +315,10 @@ header("content-type:text/html; charset=UTF-8");
                             // Chỉ hiển thị nút "Sửa" nếu trạng thái không phải "Hủy" hoặc "Đã nhận hàng"
                             if ($status !== 'Đã hủy' && $status !== 'Đã nhận hàng') {
                                 echo '<a href="edit.php?order_id=' . $item['order_id'] . '">
-                                          <button class="btn btn-success">Sửa</button> 
+                                          <button class="btn btn-success">Cập nhật</button> 
                                       </a>';
+                            }else if ($status == 'Đã hủy') {
+                              echo '<button class="btn btn-danger" onclick="deleteOrder(' . $item['order_id'] . ')">Xoá</button>';
                             }
                             echo '    </td>
                                     </tr>';
@@ -364,5 +367,21 @@ header("content-type:text/html; charset=UTF-8");
     </main>
   </div>
 </div>
+<script type="text/javascript">
+        function deleteOrder(id) {
+            var option = confirm('Bạn có chắc chắn muốn xoá sản phẩm này không?')
+            if (!option) {
+                return;
+            }
+            console.log(id)
+            //ajax - lệnh post
+            $.post('delete_order.php', {
+                'id': id,
+                'action': 'delete'
+            }, function(data) {
+                location.reload()
+            })
+        }
+</script>
 </body>
 </html>
