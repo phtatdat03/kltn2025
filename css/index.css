@@ -276,7 +276,7 @@ main #ant-layout section.main-layout .row img {
 /* <!-- END LAYOUT  --> */
 
 section.main {
-  padding: 2rem 0;
+  padding: 7rem 0;
   width: 100%;
   margin: 0px auto;
 }
@@ -366,7 +366,7 @@ section.main section.recently .product-recently .row .col .more .time img {
 /* end mon ngon gần bạn  */
 
 section.main section.restaurants {
-  padding: 3rem 0;
+  padding: 6rem 0;
 }
 
 section.main section.restaurants .link a {

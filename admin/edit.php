@@ -19,6 +19,10 @@ header("content-type:text/html; charset=UTF-8");
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cập nhật đơn hàng</title>
+<<<<<<< HEAD
+=======
+  <link rel="shortcut icon" type="image/x-icon" href="../images/logo1.png">
+>>>>>>> 9ce39858fc20c5eff5efaf862a35fc0926138e5a
   <link rel="stylesheet" href="./style.css">
   <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
@@ -57,7 +61,11 @@ header("content-type:text/html; charset=UTF-8");
                 <ul class="navbar-nav">
                 <li class="nav-item">
                         <a class="nav-link" href="index.php">
+<<<<<<< HEAD
                             <i class="bi bi-speedometer2"></i> Bảng điều khiển
+=======
+                            <i class="bi bi-speedometer2"></i> Quản lý Liên Hệ
+>>>>>>> 9ce39858fc20c5eff5efaf862a35fc0926138e5a
                         </a>
                     </li>
                     <hr class="navbar-divider my-3 opacity-20">
@@ -238,9 +246,15 @@ header("content-type:text/html; charset=UTF-8");
                         </div>
                     </div>
                 </div>
+<<<<<<< HEAD
                 <div class="card shadow border-0 mb-7">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Cập nhật trạng thái đơn hàng</h5>
+=======
+                <div class="card shadow border-0 mb-7" style="padding: 20px">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">CẬP NHẬT TRẠNG THÁI ĐƠN HÀNG</h5>
+>>>>>>> 9ce39858fc20c5eff5efaf862a35fc0926138e5a
                     </div>
                     <div class="table-responsive">
                         <form action="" method="POST">
@@ -305,7 +319,7 @@ header("content-type:text/html; charset=UTF-8");
                                     
                                 </tbody>
                             </table>
-                                <a href="order.php" class="btn btn-warning">Back</a>
+                                <a href="order.php" class="btn btn-warning" style="margin-top: 20px">Quay lại</a>
                         </form>
                         <?php
                         if ($_SERVER['REQUEST_METHOD'] == "POST") {

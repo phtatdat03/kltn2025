@@ -138,10 +138,10 @@ h6{/*  chỉnh ô chứa chữ H6 */
     text-align: left;
     font-size:17.5px; 
     font-weight: 600;
-    text-decoration: underline;
+    /* text-decoration: underline; */
     padding-left:355px;/*  chỉnh khoảng cách 2 bên lề để song song với ảnh */
     padding-right:343px;
-    padding-bottom:10px;
+    /* padding-bottom:10px; */
     margin-top:-10px;/*  chỉnh khoảng cách so với chữ bên trên */
 }
 .image{/*  chỉnh ảnh trong mục body */

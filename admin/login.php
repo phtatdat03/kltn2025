@@ -59,9 +59,9 @@
         <small class="rmb">Ghi nhớ</small>
       </label>
       <a href="#" class="forgetpass">Quên mật khẩu?</a>
-      <input type="submit" name="submit" value="Sign in" class="btn1">
+      <input type="submit" name="submit" value="Đăng nhập" class="btn1">
     </form>
-    <a href="#" class="dnthave">Chưa có tài khoản? Đăng ký</a>
+    <!-- <a href="#" class="dnthave">Chưa có tài khoản? Đăng ký</a> -->
   </div>
   <div class="footer">
     <span>Tạo bởi Admin<i class="fa fa-heart pulse"></i> <a >

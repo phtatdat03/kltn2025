@@ -31,6 +31,7 @@ footer {
   padding: 40px 10%;
   color: #ffffff;
   flex-wrap: wrap;
+  
 }
 
 footer .col {

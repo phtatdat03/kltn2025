@@ -416,6 +416,7 @@ if (!empty($_POST['title'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Thêm/Sửa Sản Phẩm</title>
   <link rel="stylesheet" href="../style.css">
+  <link rel="icon" type="image/png" href="../../images/logo1.png">
   <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
   
@@ -456,7 +457,7 @@ if (!empty($_POST['title'])) {
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" href="../index.php">
-                            <i class="bi bi-speedometer2"></i> Bảng điều khiển
+                            <i class="bi bi-speedometer2"></i> Quản lý Liên Hệ
                         </a>
                     </li>
                     <hr class="navbar-divider my-3 opacity-20">
@@ -638,20 +639,20 @@ if (!empty($_POST['title'])) {
                         </div>
                     </div>
                 </div>
-                <div class="card shadow border-0 mb-7">
+                <div class="card shadow border-0 mb-7" style="padding: 20px">
                     <div class="card-header">
-                        <h5 class="mb-0">Thêm Sản Phẩm</h5>
+                        <h5 class="mb-0" style="font-weight: bold; font-size: 20px; text-transform: uppercase; margin-top: 20px; margin-bottom: 10px">Thêm Sản Phẩm</h5>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover table-nowrap">
                         <div class="panel-body">
                             <form method="POST" enctype="multipart/form-data">
-                                <div class="form-group">
+                                <div class="form-group" style="margin-top: 10px" >
                                     <label for="name">Tên Sản Phẩm:</label>
                                     <input type="text" id="id" name="id" value="<?= $id ?>" hidden="true">
                                     <input required="true" type="text" class="form-control" id="title" name="title" value="<?= $title ?>">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="margin-top: 10px">
                                     <label for="exampleFormControlSelect1">Chọn Danh Mục</label>
                                     <select class="form-control" id="id_category" name="id_category">
                                         
@@ -668,7 +669,7 @@ if (!empty($_POST['title'])) {
                                         ?>
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="margin-top: 10px">
                                     <label for="exampleFormControlSelect1">Chọn Thương Hiệu/Bộ Sưu Tập</label>
                                     <select class="form-control" id="id_sanpham" name="id_sanpham">
                                         
@@ -685,52 +686,56 @@ if (!empty($_POST['title'])) {
                                         ?>
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="margin-top: 10px">
                                     <label for="name">Giá Sản Phẩm:</label>
                                     <input required="true" type="text" class="form-control" id="price" name="price" value="<?= $price ?>">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="margin-top: 10px">
                                     <label for="name">Số Lượng Sản Phẩm:</label>
                                     <input required="true" type="number" class="form-control" id="number" name="number" value="<?= $number ?>">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="margin-top: 10px">
                                     <!-- <label for="exampleFormControlFile1">Thumbnail:<label> -->
-                                    <label for="name">Thumbnail:</label>
+                                    <label for="name">Ảnh đại diện:</label>
                                     <input type="file" class="form-control-file" id="exampleFormControlFile1" id="thumbnail" name="thumbnail" value="<?= $thumbnail ?>">
                                     <img src="<?= $thumbnail ?>" style="max-width: 200px" id="img_thumbnail">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="margin-top: 10px">
                                     <!-- <label for="exampleFormControlFile1">Thumbnail:<label> -->
-                                    <label for="name">Thumbnail:</label>
+                                    <label for="name">Ảnh minh hoạ:</label>
                                     <input type="file" class="form-control-file" id="exampleFormControlFile1" id="thumbnail_1" name="thumbnail_1" value="<?= $thumbnail_1 ?>">
                                     <img src="<?= $thumbnail_1 ?>" style="max-width: 200px" id="img_thumbnail_1">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="margin-top: 10px">
                                     <!-- <label for="exampleFormControlFile1">Thumbnail:<label> -->
-                                    <label for="name">Thumbnail:</label>
+                                    <label for="name">Ảnh minh hoạ:</label>
                                     <input type="file" class="form-control-file" id="exampleFormControlFile1" id="thumbnail_2" name="thumbnail_2" value="<?= $thumbnail_2 ?>">
                                     <img src="<?= $thumbnail_2 ?>" style="max-width: 200px" id="img_thumbnail_2">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="margin-top: 10px">
                                     <!-- <label for="exampleFormControlFile1">Thumbnail:<label> -->
-                                    <label for="name">Thumbnail:</label>
+                                    <label for="name">Ảnh minh hoạ:</label>
                                     <input type="file" class="form-control-file" id="exampleFormControlFile1" id="thumbnail_3" name="thumbnail_3" value="<?= $thumbnail_3 ?>">
                                     <img src="<?= $thumbnail_3 ?>" style="max-width: 200px" id="img_thumbnail_3">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="margin-top: 10px">
                                     <!-- <label for="exampleFormControlFile1">Thumbnail:<label> -->
-                                    <label for="name">Thumbnail:</label>
+                                    <label for="name">Ảnh minh hoạ:</label>
                                     <input type="file" class="form-control-file" id="exampleFormControlFile1" id="thumbnail_4" name="thumbnail_4" value="<?= $thumbnail_4 ?>">
                                     <img src="<?= $thumbnail_4 ?>" style="max-width: 200px" id="img_thumbnail_4">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="margin-top: 10px">
                                     <!-- <label for="exampleFormControlFile1">Thumbnail:<label> -->
-                                    <label for="name">Thumbnail:</label>
+                                    <label for="name">Ảnh minh hoạ:</label>
                                     <input type="file" class="form-control-file" id="exampleFormControlFile1" id="thumbnail_5" name="thumbnail_5" value="<?= $thumbnail_5 ?>">
                                     <img src="<?= $thumbnail_5 ?>" style="max-width: 200px" id="img_thumbnail_5">
                                 </div>
-                                <div class="form-group">
-                                    <label for="exampleFormControlTextarea1">Nội dung</label>
+                                <div class="form-group" style="margin-top: 10px">
+                                    <label for="exampleFormControlTextarea1" 
+                                      style="font-weight: bold; font-size: 16px; text-transform: uppercase; margin-top: 20px; margin-bottom: 10px; ">
+                                      Nội dung
+                                    </label>
+
                                     <textarea class="form-control" id="content" rows="3" name="content"><?= $content ?></textarea>
                                 </div>
                                 <hr class="navbar-divider my-3 opacity-20">
@@ -741,7 +746,7 @@ if (!empty($_POST['title'])) {
                                     $previous = $_SERVER['HTTP_REFERER'];
                                 }
                                 ?>
-                                <a href="<?= $previous ?>" class="btn btn-warning">Back</a>
+                                <a href="<?= $previous ?>" class="btn btn-warning">Quay lại</a>
                             </form>
                         </div>
                         </table>
