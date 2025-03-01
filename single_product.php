@@ -180,5 +180,6 @@ if (isset($_GET['id'])) {
       </section>
     </section>
   </div>
+  
 </main>
 <?php require_once('Layout/footer.php'); ?>
