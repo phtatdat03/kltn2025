@@ -269,8 +269,12 @@ header("content-type:text/html; charset=UTF-8");
                                                     $order_id = $_GET['order_id'];
                                                 }
                                                 $index = 0;
-                                                $sql = "SELECT * from orders, order_details, product
-                                                where order_details.order_id=orders.id and product.id=order_details.product_id and order_id=$order_id";
+                                                // $sql = "SELECT * from orders, order_details, product
+                                                // where order_details.order_id=orders.id and product.id=order_details.product_id and order_id=$order_id";
+
+                                                $sql = "SELECT order_details.id as detail_id, orders.id as order_id, fullname, title, num, order_details.price as price, address, phone_number, order_details.status 
+                                                        FROM orders, order_details, product
+                                                        WHERE order_details.order_id=orders.id AND product.id=order_details.product_id AND order_details.order_id=$order_id";
                                                 $order_details_List = executeResult($sql);
                                                 foreach ($order_details_List as $item) {
                                                     echo '  <tr>
@@ -282,41 +286,36 @@ header("content-type:text/html; charset=UTF-8");
                                                                 <td class="text-heading font-semibold">' . $item['address'] . '</td>
                                                                 <td class="text-heading font-semibold">' . $item['phone_number'] . '</td>
                                                                 <td>
-                                                                    <select class="border border-4 text-heading font-semibold" name="status" id="status" onchange="status(' . $item['order_id'] . ')">
-                                                                        <option value="Tiếp nhận">Tiếp nhận</option>
-                                                                        <option value="Đang giao">Đang giao</option>
-                                                                        <option value="Đã nhận hàng">Đã nhận hàng</option>
-                                                                        <option value="Đã hủy">Đã hủy</option>
+                                                                    <select class="border border-4 text-heading font-semibold" name="status[' . $item['detail_id'] . ']" id="status_' . $item['detail_id'] . '">
+                                                                        <option value="Tiếp nhận" ' . ($item['status'] == 'Tiếp nhận' ? 'selected' : '') . '>Tiếp nhận</option>
+                                                                        <option value="Đang giao" ' . ($item['status'] == 'Đang giao' ? 'selected' : '') . '>Đang giao</option>
+                                                                        <option value="Đã nhận hàng" ' . ($item['status'] == 'Đã nhận hàng' ? 'selected' : '') . '>Đã nhận hàng</option>
+                                                                        <option value="Đã hủy" ' . ($item['status'] == 'Đã hủy' ? 'selected' : '') . '>Đã hủy</option>
                                                                     </select>
                                                                 </td>
-                                                                <td>
-                                                                    <a href="edit.php?order_id=' . $item['order_id'] . '">
-                                                                        <button class=" btn btn-success">Lưu</button> 
-                                                                    </a> 
-                                                                </td>
-                                                                
                                                             </tr>';
                                                 }
                                             } catch (Exception $e) {
                                                 die("Lỗi thực thi sql: " . $e->getMessage());
                                             }
                                         ?>
-                                        
                                     </tr>
-                                    
                                 </tbody>
                             </table>
-                                <a href="order.php" class="btn btn-warning" style="margin-top: 20px">Quay lại</a>
+                            <button type="submit" class="btn btn-success" style="margin-top: 20px">Lưu</button>
+                            <a href="order.php" class="btn btn-warning" style="margin-top: 20px">Quay lại</a>
                         </form>
                         <?php
-                        if ($_SERVER['REQUEST_METHOD'] == "POST") {
-                            $status = $_POST['status'];
-                            $sql = "UPDATE `order_details` SET `status` = '$status' WHERE `order_id` = $order_id";
-                            execute($sql);
+                        if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['status'])) {
+                            $statusArray = $_POST['status'];
+                            foreach ($statusArray as $detail_id => $status) {
+                                $sql = "UPDATE `order_details` SET `status` = '$status' WHERE `id` = $detail_id";
+                                execute($sql);
+                            }
                             echo '<script language="javascript">
-                            alert("Cập nhật thành công!");
-                            window.location = "order.php";
-                        </script>';
+                                alert("Cập nhật thành công!");
+                                window.location = "order.php";
+                            </script>';
                         }
                         ?>
                     </div>

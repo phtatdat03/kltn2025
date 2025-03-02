@@ -54,7 +54,7 @@ if (!empty($_POST)) {
     } else {
         $cartList = [];
     }
-    $status = 'Đang chuẩn bị hàng';
+    $status = 'Tiếp nhận';
     
     foreach ($cartList as $item) {
         $num = 0;

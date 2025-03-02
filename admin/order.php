@@ -267,6 +267,7 @@ header("content-type:text/html; charset=UTF-8");
                       <th scope="col">Địa Chỉ</th>
                       <th scope="col">Số Điện Thoại</th>
                       <th scrop="col">Ghi chú</th>
+                      <th scrop="col">Ngày đặt hàng</th>
                       <th scope="col">Trạng Thái</th>
                       <th></th>
                       <th></th>
@@ -284,9 +285,7 @@ header("content-type:text/html; charset=UTF-8");
                           $pg = $_GET['page'];
                           echo 'Bạn đang ở trang: ' . $pg;
                       }
-
                       try {
-
                           if (isset($_GET['page'])) {
                               $page = $_GET['page'];
                           } else {
@@ -294,8 +293,12 @@ header("content-type:text/html; charset=UTF-8");
                           }
                           $limit = 10;
                           $start = ($page - 1) * $limit;
-                          $sql = "SELECT * from orders, order_details, product
-                          where order_details.order_id=orders.id and product.id=order_details.product_id ORDER BY order_date DESC limit $start,$limit ";
+                          // $sql = "SELECT * from orders, order_details, product
+                          // where order_details.order_id=orders.id and product.id=order_details.product_id ORDER BY order_date DESC limit $start,$limit ";
+                          $sql = "SELECT order_details.id as detail_id, orders.id as order_id, fullname, title, num, order_details.price as price, address, phone_number, note, order_date, order_details.status 
+                                  FROM orders, order_details, product
+                                  WHERE order_details.order_id=orders.id AND product.id=order_details.product_id 
+                                  ORDER BY order_date DESC LIMIT $start,$limit";
                           $order_details_List = executeResult($sql);
                           $total = 0;
                           $index = 0;
@@ -309,6 +312,7 @@ header("content-type:text/html; charset=UTF-8");
                                         <td class="text-heading font-semibold">' . $item['address'] . '</td>
                                         <td class="text-heading font-semibold">' . $item['phone_number'] . '</td>
                                         <td class="text-heading font-semibold">' . $item['note'] . '</td>
+                                        <td class="text-heading font-semibold">' . $item['order_date'] . '</td>
                                         <td class="text-heading font-semibold">' . $item['status'] . '</td>
                                         <td>';
                             $status = trim($item['status']);
@@ -318,7 +322,7 @@ header("content-type:text/html; charset=UTF-8");
                                           <button class="btn btn-success">Cập nhật</button> 
                                       </a>';
                             }else if ($status == 'Đã hủy') {
-                              echo '<button class="btn btn-danger" onclick="deleteOrder(' . $item['order_id'] . ')">Xoá</button>';
+                              echo '<button class="btn btn-danger" onclick="deleteOrderDetail(' . $item['detail_id'] . ')">Xoá</button>';
                             }
                             echo '    </td>
                                     </tr>';
@@ -368,19 +372,16 @@ header("content-type:text/html; charset=UTF-8");
   </div>
 </div>
 <script type="text/javascript">
-        function deleteOrder(id) {
-            var option = confirm('Bạn có chắc chắn muốn xoá sản phẩm này không?')
+        function deleteOrderDetail(id) {
+            var option = confirm('Bạn có chắc chắn muốn xoá mục này không?')
             if (!option) {
                 return;
             }
-            console.log(id)
-            //ajax - lệnh post
-            $.post('delete_order.php', {
-                'id': id,
-                'action': 'delete'
+            $.post('delete_order_detail.php', {
+                'id': id
             }, function(data) {
-                location.reload()
-            })
+                location.reload();
+            });
         }
 </script>
 </body>
