@@ -11,7 +11,7 @@ header("content-type:text/html; charset=UTF-8");
 require_once('../database/dbhelper.php');
 $id = $name = '';
 if (!empty($_POST['name'])) {
-  $name = '';
+  // Lấy giá trị tên danh mục và xử lý ký tự đặc biệt
   if (isset($_POST['name'])) {
     $name = $_POST['name'];
     $name = str_replace('"', '\\"', $name);
@@ -19,17 +19,32 @@ if (!empty($_POST['name'])) {
   if (isset($_POST['id'])) {
     $id = $_POST['id'];
   }
+  
   if (!empty($name)) {
-    $created_at = $updated_at = date('Y-m-d H:s:i');
+    // Kiểm tra xem tên danh mục đã tồn tại chưa
+    if ($id == '') {
+      // Trường hợp thêm mới: kiểm tra toàn bộ bảng
+      $sql_check = "SELECT * FROM category WHERE name = '" . $name . "'";
+    } else {
+      // Trường hợp sửa: kiểm tra các danh mục khác
+      $sql_check = "SELECT * FROM category WHERE name = '" . $name . "' AND id <> " . $id;
+    }
+    $existing = executeSingleResult($sql_check);
+    if ($existing != null) {
+      // Nếu tồn tại danh mục có tên trùng, hiển thị thông báo và dừng xử lý
+      echo '<script>alert("Tên danh mục đã tồn tại"); window.history.back();</script>';
+      die();
+    }
+    
+    $created_at = $updated_at = date('Y-m-d H:i:s'); // Sửa lại định dạng thời gian cho chính xác
     // Lưu vào DB
     if ($id == '') {
       // Thêm danh mục
-      $sql = 'insert into category(name, created_at,updated_at) 
-      values ("' . $name . '","' . $created_at . '","' . $updated_at . '")';
-    } 
-    else {
+      $sql = 'INSERT INTO category(name, created_at, updated_at) 
+              VALUES ("' . $name . '", "' . $created_at . '", "' . $updated_at . '")';
+    } else {
       // Sửa danh mục
-      $sql = 'update category set name="' . $name . '", updated_at="' . $updated_at . '" where id=' . $id;
+      $sql = 'UPDATE category SET name = "' . $name . '", updated_at = "' . $updated_at . '" WHERE id = ' . $id;
     }
     execute($sql);
     header('Location: index.php');
@@ -37,17 +52,16 @@ if (!empty($_POST['name'])) {
   }
 }
 
-
-
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    $sql = 'select * from category where id=' . $id;
+    $sql = 'SELECT * FROM category WHERE id = ' . $id;
     $category = executeSingleResult($sql);
     if ($category != null) {
         $name = $category['name'];
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en" >
 <head>
@@ -308,7 +322,7 @@ if (isset($_GET['id'])) {
                                     <input required="true" type="text" class="form-control" id="name" name="name" value="<?= $name ?>">
                                 </div>
                                 <hr class="navbar-divider my-3 opacity-20">
-                                <button class="btn btn-success" onclick="addProduct()">Lưu</button>
+                                <button class="btn btn-success" onclick="return addCategory()">Lưu</button>
                                 <?php
                                 $previous = "javascript:history.go(-1)";
                                 if (isset($_SERVER['HTTP_REFERER'])) {
@@ -326,12 +340,9 @@ if (isset($_GET['id'])) {
     </div>
 </div>
     <script type="text/javascript">
-        function addProduct()
+        function addCategory()
         {
-            var option = confirm('Thêm danh mục thành công')
-            if (!option) {
-                return;
-            }
+            return confirm('Bạn có chắc chắn muốn lưu danh mục này không?');
         }
     </script>
   

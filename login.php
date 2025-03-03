@@ -62,16 +62,6 @@
         <div class="tb-login-form ">
           <h5 class="tb-title">Đăng nhập</h5>
           <p>Đăng nhập tài khoản để trải nghiệm mua sắm tại Luxury Home</p>
-          <!-- <div class="tb-social-login">
-            <a class="tb-facebook-login" href="#">
-              <i class="fa fa-facebook"></i>
-              Sign In With Facebook
-            </a>
-            <a class="tb-twitter-login res" href="#">
-              <i class="fa fa-twitter"></i>
-              Sign In With Twitter
-            </a>
-          </div> -->
           <form action="#" method="POST">
             <p class="checkout-coupon top log a-an">
               <label class="l-contact">
@@ -101,36 +91,9 @@
           </form>
         </div>
       </div>
-      <!-- <div class="col-md-6 col-xs-12">
-        <div class="tb-login-form res">
-          <h5 class="tb-title">Create a new account</h5>
-          <p>Hello, Welcome your to account</p>
-          <form action="#">
-            <p class="checkout-coupon top log a-an">
-              <label class="l-contact">
-                Email Address
-                <em>*</em>
-              </label>
-              <input type="email">
-            </p>
-            <p class="login-submit5 ress">
-              <input value="SignUp" class="button-primary" type="submit">
-            </p>
-          </form>
-          <div class="tb-info-login ">
-              <h5 class="tb-title4">SignUp today and you'll be able to:</h5>
-              <ul>
-                  <li>Speed your way through the checkout.</li>
-                  <li>Track your orders easily.</li>
-                  <li>Keep a record of all your purchases.</li>
-              </ul>
-          </div>
-        </div>
-      </div> -->
     </div>
   </div>
 </div>
-<!-- login  content section end -->
 <hr class="opacity-20">
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <?php require_once('Layout/footer.php'); ?>

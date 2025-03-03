@@ -40,6 +40,20 @@ if (!empty($_POST['title'])) {
         $id = $_POST['id'];
         $id = str_replace('"', '\\"', $id);
     }
+    // Kiểm tra trùng lặp tên sản phẩm
+    if ($id == '') {
+        // Trường hợp thêm mới: kiểm tra toàn bộ bảng
+        $sql_check = "SELECT * FROM product WHERE title = '" . $title . "'";
+    } else {
+        // Trường hợp sửa: kiểm tra các sản phẩm khác
+        $sql_check = "SELECT * FROM product WHERE title = '" . $title . "' AND id <> " . $id;
+    }
+    $existing = executeSingleResult($sql_check);
+    if ($existing != null) {
+        echo '<script>alert("Tên sản phẩm đã tồn tại"); window.history.back();</script>';
+        die();
+    }
+
     if (isset($_POST['price'])) {
         $price = $_POST['price'];
         $price = str_replace('"', '\\"', $price);
@@ -393,11 +407,11 @@ if (!empty($_POST['title'])) {
     $created_at = $updated_at = date('Y-m-d H:s:i');
     // Lưu vào DB
     if ($id == '') {
-        // Thêm danh mục
+        // Thêm sản phẩm
         $sql = 'insert into product(title, price, number, thumbnail, thumbnail_1, thumbnail_2, thumbnail_3, thumbnail_4, thumbnail_5, content, id_category, id_sanpham, created_at, updated_at) 
         values ("' . $title . '","' . $price . '","' . $number . '","' . $thumbnail . '","' . $thumbnail_1 . '","' . $thumbnail_2 . '","' . $thumbnail_3 . '","' . $thumbnail_4 . '","' . $thumbnail_5 . '","' . $content . '","' . $id_category . '","' . $id_sanpham . '","' . $created_at . '","' . $updated_at . '")';
     } else {
-        // Sửa danh mục
+        // Sửa sản phẩm
         $sql = 'update product set title="' . $title . '",price="' . $price . '",number="' . $number . '",thumbnail="' . $thumbnail . '",thumbnail_1="' . $thumbnail_1 . '",thumbnail_2="' . $thumbnail_2 . '",thumbnail_3="' . $thumbnail_3 . '",thumbnail_4="' . $thumbnail_4 . '",thumbnail_5="' . $thumbnail_5 . '",content="' . $content . '",id_category="' . $id_category . '",id_sanpham="' . $id_sanpham . '", updated_at="' . $updated_at . '" where id=' . $id;
     }
     execute($sql);
@@ -739,7 +753,7 @@ if (!empty($_POST['title'])) {
                                     <textarea class="form-control" id="content" rows="3" name="content"><?= $content ?></textarea>
                                 </div>
                                 <hr class="navbar-divider my-3 opacity-20">
-                                <button class="btn btn-success" onclick="addProduct()">Lưu</button>
+                                <button type="submit" class="btn btn-success" onclick="return addProduct(event)">Lưu</button>
                                 <?php
                                 $previous = "javascript:history.go(-1)";
                                 if (isset($_SERVER['HTTP_REFERER'])) {
@@ -767,12 +781,14 @@ if (!empty($_POST['title'])) {
                 height: 200
             });
         })
-		function addProduct()
+		function addProduct(event)
         {
-            var option = confirm('Bạn thêm sản phẩm thành công')
+            var option = confirm('Bạn có chắc chắn muốn lưu sản phẩm này không?')
             if (!option) {
-                return;
+                event.preventDefault();
+                return false;
             }
+            return true;
         }
     </script>
   

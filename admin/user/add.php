@@ -40,15 +40,28 @@ if (!empty($_POST['fullname'])) {
         $dienthoai = str_replace('"', '\\"', $dienthoai);
     }
     if (!empty($fullname)) {
-        // Lưu vào DB
+        // Kiểm tra trùng lặp email hoặc tên đăng nhập
         if ($id_user == '') {
-            // Thêm khách hàng
-            $sql = 'insert into user(full_name, username, email, address, password, phone_number) 
-            values ("' . $fullname . '","' . $tendangnhap . '","' . $email . '","' . $diachi . '","' . $matkhau . '","' . $dienthoai . '")';
-        } 
-        else {
-            // Sửa khách hàng
-            $sql = 'update user set full_name="' . $fullname . '",username="' . $tendangnhap . '",email="' . $email . '",address="' . $diachi . '",password="' . $matkhau . '",phone_number="' . $dienthoai . '" where id_user=' . $id_user;
+            // Thêm mới: kiểm tra toàn bộ bảng
+            $sql_check = "SELECT * FROM user WHERE email = '" . $email . "' OR username = '" . $tendangnhap . "'";
+        } else {
+            // Chỉnh sửa: kiểm tra các tài khoản khác
+            $sql_check = "SELECT * FROM user WHERE (email = '" . $email . "' OR username = '" . $tendangnhap . "') AND id_user <> " . $id_user;
+        }
+        $existing = executeSingleResult($sql_check);
+        if ($existing != null) {
+            echo '<script>alert("Email hoặc tên đăng nhập đã tồn tại"); window.history.back();</script>';
+            die();
+        }
+        
+        // Lưu dữ liệu vào DB
+        if ($id_user == '') {
+            // Thêm mới tài khoản
+            $sql = 'INSERT INTO user(full_name, username, email, address, password, phone_number) 
+                    VALUES ("' . $fullname . '", "' . $tendangnhap . '", "' . $email . '", "' . $diachi . '", "' . $matkhau . '", "' . $dienthoai . '")';
+        } else {
+            // Chỉnh sửa tài khoản
+            $sql = 'UPDATE user SET full_name = "' . $fullname . '", username = "' . $tendangnhap . '", email = "' . $email . '", address = "' . $diachi . '", password = "' . $matkhau . '", phone_number = "' . $dienthoai . '" WHERE id_user = ' . $id_user;
         }
         execute($sql);
         header('Location: index.php');
@@ -56,11 +69,9 @@ if (!empty($_POST['fullname'])) {
     }
 }
 
-
-
 if (isset($_GET['id_user'])) {
     $id_user = $_GET['id_user'];
-    $sql = 'select * from user where id_user=' . $id_user;
+    $sql = 'SELECT * FROM user WHERE id_user = ' . $id_user;
     $user = executeSingleResult($sql);
     if ($user != null) {
         $fullname = $user['full_name'];
@@ -69,7 +80,6 @@ if (isset($_GET['id_user'])) {
         $diachi = $user['address'];
         $matkhau = $user['password'];
         $dienthoai = $user['phone_number'];
-        
     }
 }
 ?>
@@ -331,7 +341,7 @@ if (isset($_GET['id_user'])) {
                                         <input required="true" type="text" class="form-control" id="dienthoai" name="dienthoai" value="<?= $dienthoai ?>">
                                     </div>
                                     <hr class="navbar-divider my-3 opacity-20">
-                                    <button class="btn btn-success" onclick="addUser()">Lưu</button>
+                                    <button class="btn btn-success" onclick="return addUser(event)">Lưu</button>
                                     <?php
                                     $previous = "javascript:history.go(-1)";
                                     if (isset($_SERVER['HTTP_REFERER'])) {
@@ -351,10 +361,7 @@ if (isset($_GET['id_user'])) {
     <script type="text/javascript">
         function addUser()
         {
-            var option = confirm('Thành công')
-            if (!option) {
-                return;
-            }
+            return confirm("Bạn có chắc chắn muốn lưu tài khoản này không?");
         }
     </script>
   

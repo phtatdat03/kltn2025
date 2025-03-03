@@ -11,40 +11,53 @@ header("content-type:text/html; charset=UTF-8");
 require_once('../database/dbhelper.php');
 $id = $name = '';
 if (!empty($_POST['name'])) {
-    $name = '';
-    if (isset($_POST['name'])) {
-        $name = $_POST['name'];
-        $name = str_replace('"', '\\"', $name);
+  // Lấy giá trị tên danh mục và xử lý ký tự đặc biệt
+  if (isset($_POST['name'])) {
+    $name = $_POST['name'];
+    $name = str_replace('"', '\\"', $name);
+  }
+  if (isset($_POST['id'])) {
+    $id = $_POST['id'];
+  }
+  
+  if (!empty($name)) {
+    // Kiểm tra xem tên danh mục đã tồn tại chưa
+    if ($id == '') {
+      // Trường hợp thêm mới: kiểm tra toàn bộ bảng
+      $sql_check = "SELECT * FROM collections WHERE name = '" . $name . "'";
+    } else {
+      // Trường hợp sửa: kiểm tra các danh mục khác
+      $sql_check = "SELECT * FROM collections WHERE name = '" . $name . "' AND id <> " . $id;
     }
-    if (isset($_POST['id'])) {
-        $id = $_POST['id'];
+    $existing = executeSingleResult($sql_check);
+    if ($existing != null) {
+      // Nếu tồn tại danh mục có tên trùng, hiển thị thông báo và dừng xử lý
+      echo '<script>alert("Tên thương hiệu đã tồn tại"); window.history.back();</script>';
+      die();
     }
-    if (!empty($name)) {
-        $created_at = $updated_at = date('Y-m-d H:s:i');
-        // Lưu vào DB
-        if ($id == '') {
-            // Thêm Thương Hiệu
-            $sql = 'insert into collections(name, created_at,updated_at) 
-            values ("' . $name . '","' . $created_at . '","' . $updated_at . '")';
-        } 
-        else {
-            // Sửa Thương Hiệu
-            $sql = 'update collections set name="' . $name . '", updated_at="' . $updated_at . '" where id=' . $id;
-        }
-        execute($sql);
-        header('Location: index.php');
-        die();
+    
+    $created_at = $updated_at = date('Y-m-d H:i:s'); // Sửa lại định dạng thời gian cho chính xác
+    // Lưu vào DB
+    if ($id == '') {
+      // Thêm danh mục
+      $sql = 'INSERT INTO collections(name, created_at, updated_at) 
+              VALUES ("' . $name . '", "' . $created_at . '", "' . $updated_at . '")';
+    } else {
+      // Sửa danh mục
+      $sql = 'UPDATE collections SET name = "' . $name . '", updated_at = "' . $updated_at . '" WHERE id = ' . $id;
     }
+    execute($sql);
+    header('Location: index.php');
+    die();
+  }
 }
-
-
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    $sql = 'select * from collections where id=' . $id;
-    $collections = executeSingleResult($sql);
-    if ($collections != null) {
-        $name = $collections['name'];
+    $sql = 'SELECT * FROM collections WHERE id = ' . $id;
+    $collection = executeSingleResult($sql);
+    if ($collection != null) {
+        $name = $collection['name'];
     }
 }
 ?>
@@ -308,7 +321,7 @@ if (isset($_GET['id'])) {
                                     <input required="true" type="text" class="form-control" id="name" name="name" value="<?= $name ?>">
                                 </div>
                                 <hr class="navbar-divider my-3 opacity-20">
-                                <button class="btn btn-success" onclick="addProduct()">Lưu</button>
+                                <button class="btn btn-success" onclick="return addCollection()">Lưu</button>
                                 <?php
                                 $previous = "javascript:history.go(-1)";
                                 if (isset($_SERVER['HTTP_REFERER'])) {
@@ -326,12 +339,9 @@ if (isset($_GET['id'])) {
     </div>
 </div>
     <script type="text/javascript">
-        function addProduct()
+        function addCollection()
         {
-            var option = confirm('Thêm thương hiệu thành công')
-            if (!option) {
-                return;
-            }
+            return confirm('Bạn có chắc chắn muốn lưu thương hiệu này không?');
         }
     </script>
   
